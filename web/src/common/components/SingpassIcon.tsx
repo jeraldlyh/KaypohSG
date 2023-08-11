@@ -1,6 +1,6 @@
 export const SingpassIcon = (): JSX.Element => {
   return (
-    <div className="w-28">
+    <div className="w-24 md:w-28">
       <svg
         width="100%"
         height="100%"
