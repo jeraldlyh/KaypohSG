@@ -16,6 +16,7 @@ services:
       context: ./backend
       target: development
       dockerfile: Dockerfile
+    env_file: ./backend/.env
     ports:
       - 8000:8000
     volumes:
