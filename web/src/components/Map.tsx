@@ -7,11 +7,13 @@ interface IProps {
   contributions: IContribution[];
   setDisplayContributionId: React.Dispatch<React.SetStateAction<string>>;
   onClose: () => void;
+  refetchData: () => Promise<void>;
 }
 
 export const Map = ({
   displayContributionId,
   contributions,
+  refetchData,
   setDisplayContributionId,
   onClose,
 }: IProps): JSX.Element => {
@@ -21,14 +23,12 @@ export const Map = ({
   const renderMarkers = (): JSX.Element[] => {
     return contributions.map((contribution) => (
       <Marker
+        {...contribution}
         key={contribution.id}
         isOpen={displayContributionId === contribution.id}
         lat={+contribution.location.lat}
         lng={+contribution.location.lng}
-        type={contribution.type}
-        createdBy={contribution.createdBy}
-        createdAt={contribution.createdAt}
-        description={contribution.description}
+        refetchData={refetchData}
         onOpen={() => setDisplayContributionId(contribution.id)}
         onClose={onClose}
       />
@@ -39,7 +39,7 @@ export const Map = ({
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
   return (
-    <div className="mt-44 h-full w-full overflow-hidden rounded-xl">
+    <div className="mt-44 h-2/3 w-full overflow-hidden rounded-xl">
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.NEXT_PUBLIC_API_KEY || '' }}
         defaultZoom={12}

@@ -41,10 +41,12 @@ export const Dashboard = (): JSX.Element => {
           contributions={contributions}
           setDisplayContributionId={setDisplayContributionId}
           onClose={() => setDisplayContributionId('')}
+          refetchData={fetchContributions}
         />
         <Tabs
           contributions={contributions}
           setDisplayContributionId={setDisplayContributionId}
+          refetchData={fetchContributions}
         />
       </div>
     </Container>

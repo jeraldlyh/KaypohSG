@@ -20,7 +20,17 @@ const create = async (contribution: ICreateContributionDto): Promise<void> => {
   );
 };
 
+const like = async (id: string): Promise<void> => {
+  return await AxiosService.get(`${SERVER_ROUTES.CONTRIBUTION.LIKE}/${id}`);
+};
+
+const dislike = async (id: string): Promise<void> => {
+  return await AxiosService.get(`${SERVER_ROUTES.CONTRIBUTION.DISLIKE}/${id}`);
+};
+
 export const ContributionService = {
   getAll,
   create,
+  like,
+  dislike,
 };

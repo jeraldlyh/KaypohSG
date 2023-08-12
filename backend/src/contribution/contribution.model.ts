@@ -37,6 +37,8 @@ export class Contribution extends BaseModel implements IContribution {
   public location: Coordinates;
 
   public createdBy: string;
+  public likes: string[];
+  public dislikes: string[];
 
   constructor(
     id: string,
@@ -44,6 +46,8 @@ export class Contribution extends BaseModel implements IContribution {
     description: string,
     createdBy: string,
     location: ICoordinates,
+    likes: string[],
+    dislikes: string[],
     isDeleted: boolean,
     createdAt: Date | Timestamp,
   ) {
@@ -52,6 +56,8 @@ export class Contribution extends BaseModel implements IContribution {
     this.description = description;
     this.createdBy = createdBy;
     this.location = location;
+    this.likes = likes;
+    this.dislikes = dislikes;
   }
 }
 
@@ -66,6 +72,8 @@ export const ContributionConverter = {
         lat: contribution.location.lat,
         lng: contribution.location.lng,
       },
+      likes: contribution.likes,
+      dislikes: contribution.dislikes,
       isDeleted: contribution.isDeleted,
       createdAt: contribution.createdAt,
     };
@@ -83,6 +91,8 @@ export const ContributionConverter = {
         lat: data.location.lat,
         lng: data.location.lng,
       },
+      data.likes,
+      data.dislikes,
       data.isDeleted,
       (data.createdAt as Timestamp).toDate(),
     );

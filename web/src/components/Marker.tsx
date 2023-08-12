@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 import { AiFillCalendar } from 'react-icons/ai';
 import {
   BsFillHandThumbsDownFill,
@@ -8,23 +9,33 @@ import {
 } from 'react-icons/bs';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { RxCross2 } from 'react-icons/rx';
-import { Icon, TType } from '../common';
+import { Icon, IContribution, Utils } from '../common';
+import { ContributionService } from '../services';
 
-interface IProps {
+interface IProps extends IContribution {
   lat: number;
   lng: number;
-  type: TType;
-  description: string;
   isOpen: boolean;
-  createdAt: string;
-  createdBy: string;
+  refetchData: () => Promise<void>;
   onOpen: () => void;
   onClose: () => void;
 }
 
 export const Marker = (props: IProps): JSX.Element => {
-  const { type, description, isOpen, createdAt, createdBy, onOpen, onClose } =
-    props;
+  const {
+    id,
+    type,
+    description,
+    isOpen,
+    createdAt,
+    createdBy,
+    likes,
+    dislikes,
+    actions: { isLiked, isDisliked },
+    refetchData,
+    onOpen,
+    onClose,
+  } = props;
 
   /* -------------------------------------------------------------------------- */
   /*                              HELPER FUNCTIONS                              */
@@ -36,6 +47,27 @@ export const Marker = (props: IProps): JSX.Element => {
       year: 'numeric',
     });
   };
+
+  const handleLike = async (): Promise<void> => {
+    await toast.promise(ContributionService.like(id), {
+      loading: 'Attempting to like the contribution',
+      success: `Successfully liked the contribution`,
+      error: (e) => Utils.capitalize(e.response.data.message.toString()),
+    });
+    await refetchData();
+  };
+
+  const handleDislike = async (): Promise<void> => {
+    await toast.promise(ContributionService.dislike(id), {
+      loading: 'Attempting to dislike the contribution',
+      success: `Successfully disliked the contribution`,
+      error: (e) => Utils.capitalize(e.response.data.message.toString()),
+    });
+    await refetchData();
+  };
+
+  // NOTE: Prevent user from liking and disliking the contribution at the same time
+  const isButtonDisabled = (): boolean => isLiked || isDisliked;
 
   /* -------------------------------------------------------------------------- */
   /*                                   RENDER                                   */
@@ -60,7 +92,7 @@ export const Marker = (props: IProps): JSX.Element => {
 
     return (
       <motion.div
-        className="card relative w-52 bg-base-100 shadow-xl"
+        className="card relative z-10 w-52 bg-base-100 shadow-xl"
         initial={{ opacity: 0 }}
         animate={{ opacity: isOpen ? 1 : 0 }}
         transition={{ duration: 0.5 }}
@@ -88,18 +120,30 @@ export const Marker = (props: IProps): JSX.Element => {
             </div>
             <div className="flex items-center space-x-2">
               <BsFillPersonFill className="text-base" />
-              <span className="truncate">
-                {createdBy}a;lskdl;akd;laskdl;as;lka;ldk;a;l
-              </span>
+              <span className="truncate">{createdBy}</span>
             </div>
           </div>
           <div className="divider m-0" />
-          <div className="card-actions justify-center">
-            <button className="btn btn-secondary btn-sm">
+          <div className="card-actions flex-nowrap justify-center">
+            <button
+              className="btn btn-sm relative w-full shrink"
+              onClick={handleLike}
+              disabled={isButtonDisabled()}
+            >
               <BsFillHandThumbsUpFill />
+              <span className="absolute right-0 top-0 inline-flex h-4 w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-success text-neutral">
+                {likes.length}
+              </span>
             </button>
-            <button className="btn btn-primary btn-sm">
+            <button
+              className="btn btn-sm relative w-full shrink"
+              onClick={handleDislike}
+              disabled={isButtonDisabled()}
+            >
               <BsFillHandThumbsDownFill />
+              <span className="absolute right-0 top-0 inline-flex h-4 w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-error text-neutral">
+                {dislikes.length}
+              </span>
             </button>
           </div>
         </div>
