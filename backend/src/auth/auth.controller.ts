@@ -7,7 +7,7 @@ import {
   Response,
 } from '@nestjs/common';
 import { Response as IResponse } from 'express';
-import { IRedirectUrl } from '../common';
+import { IRedirectUrl, Public } from '../common';
 import { AuthService } from './auth.service';
 import { IQuery } from './auth.types';
 
@@ -16,6 +16,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/login')
+  @Public()
   @Redirect()
   async singpassLogin(): Promise<IRedirectUrl> {
     const url = await this.authService.singpassLogin();
@@ -24,6 +25,7 @@ export class AuthController {
   }
 
   @Get('/callback')
+  @Public()
   async callback(
     @Query() query: IQuery,
     @Response({ passthrough: true }) response: IResponse,

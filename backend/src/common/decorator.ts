@@ -1,3 +1,4 @@
+import { SetMetadata } from '@nestjs/common';
 import {
   isNotEmpty,
   isString,
@@ -22,3 +23,5 @@ export function IsNotEmptyString(validationOptions?: ValidationOptions) {
     });
   };
 }
+
+export const Public = () => SetMetadata('isPublic', true);
