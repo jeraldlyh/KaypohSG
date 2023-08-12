@@ -1,21 +1,21 @@
-import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { instanceToPlain } from 'class-transformer';
 import * as MyInfoConnector from 'myinfo-connector-nodejs';
 import { v4 as uuidv4 } from 'uuid';
 import { WEB_URL } from '../common';
-import { getUrl, MYINFO_CONFIG, ONE_MAP_ENDPOINT } from './auth.constant';
+import { OneMapService } from '../one-map/one-map.service';
+import { getUrl, MYINFO_CONFIG } from './auth.constant';
 import { Account } from './auth.model';
 import { AuthRepository } from './auth.repository';
-import { ICoordinates, IOneMapResponse } from './auth.types';
+import { ICoordinates } from './auth.types';
 
 @Injectable()
 export class AuthService {
   private myinfoConnector: any;
 
   constructor(
-    private readonly httpService: HttpService,
+    private readonly oneMapService: OneMapService,
     private readonly authRepository: AuthRepository,
     private readonly jwtService: JwtService,
   ) {
@@ -35,7 +35,10 @@ export class AuthService {
     let account = await this.authRepository.getAccount(username);
 
     if (!account) {
-      const location = await this._getCoordinatesFromLocation(address);
+      const location = (await this.oneMapService.searchAddress(
+        address,
+        true,
+      )) as ICoordinates;
       account = new Account(uuidv4(), username, location, false, new Date());
 
       await this.authRepository.createAccount(account);
@@ -53,26 +56,6 @@ export class AuthService {
     } catch (error) {
       return false;
     }
-  }
-
-  async _getCoordinatesFromLocation(location: string): Promise<ICoordinates> {
-    const response = await this.httpService.axiosRef.get<IOneMapResponse>(
-      ONE_MAP_ENDPOINT,
-      {
-        params: {
-          searchVal: location,
-          returnGeom: 'Y',
-          getAddrDetails: 'N',
-        },
-      },
-    );
-
-    const { LATITUDE, LONGITUDE } = response.data.results[0];
-
-    return {
-      lat: LATITUDE,
-      lng: LONGITUDE,
-    };
   }
 
   async _signToken(payload: Account): Promise<string> {

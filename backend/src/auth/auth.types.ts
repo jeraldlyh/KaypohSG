@@ -16,17 +16,24 @@ export interface ICoordinates {
   lng: string;
 }
 
+export interface IOneMapResult {
+  SEARCHVAL: string;
+  ROAD_NAME: string;
+  BLK_NO: string;
+  BUILDING: string;
+  ADDRESS: string;
+  POSTAL: string;
+  X: string;
+  Y: string;
+  LATITUDE: string;
+  LONGITUDE: string;
+}
+
 export interface IOneMapResponse {
   found: number;
   totalNumPages: number;
   pageNum: number;
-  results: {
-    SEARCHVAL: string;
-    X: string;
-    Y: string;
-    LATITUDE: string;
-    LONGITUDE: string;
-  }[];
+  results: IOneMapResult[];
 }
 
 export interface IAuth extends Account {
