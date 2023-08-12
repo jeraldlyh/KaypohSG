@@ -14,6 +14,7 @@ export interface IAccount extends IBaseModel {
 export interface ICoordinates {
   lat: string;
   lng: string;
+  address?: string;
 }
 
 export interface IOneMapResult {

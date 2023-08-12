@@ -15,6 +15,9 @@ export const SERVER_ROUTES = {
   CONTRIBUTION: {
     GET_ALL: '/contribution',
   },
+  ONE_MAP: {
+    SEARCH: '/one-map/search',
+  },
 };
 
 export const WHITELISTED_ROUTES = new Set([
@@ -35,4 +38,5 @@ export const MODAL_ID = 'modal';
 export const DEFAULT_CONTRIBUTION: Partial<IContribution> = {
   type: 'alert',
   description: '',
+  query: '',
 };

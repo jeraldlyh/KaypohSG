@@ -8,7 +8,6 @@ import { OneMapService } from '../one-map/one-map.service';
 import { getUrl, MYINFO_CONFIG } from './auth.constant';
 import { Account } from './auth.model';
 import { AuthRepository } from './auth.repository';
-import { ICoordinates } from './auth.types';
 
 @Injectable()
 export class AuthService {
@@ -35,10 +34,7 @@ export class AuthService {
     let account = await this.authRepository.getAccount(username);
 
     if (!account) {
-      const location = (await this.oneMapService.searchAddress(
-        address,
-        true,
-      )) as ICoordinates;
+      const location = await this.oneMapService.searchAddress(address)[0];
       account = new Account(uuidv4(), username, location, false, new Date());
 
       await this.authRepository.createAccount(account);

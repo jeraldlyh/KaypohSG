@@ -1,10 +1,11 @@
 'use client';
 import { createContext, useContext } from 'react';
+import { BiSolidError } from 'react-icons/bi';
 import { DEFAULT_CONTRIBUTION, IContribution, MODAL_ID } from '../common';
 import { useModal } from '../hooks';
 
 interface IModalContext {
-  payload: IContribution;
+  payload: Partial<IContribution>;
   openModal: () => void;
   closeModal: () => void;
   resetPayload: () => void;
@@ -34,7 +35,6 @@ const ModalProvider = ({ children }: IModalProvider) => {
   /* -------------------------------------------------------------------------- */
   /*                              HELPER FUNCTIONS                              */
   /* -------------------------------------------------------------------------- */
-
   const handleOnSubmit = async (): Promise<void> => {};
 
   const isButtonDisabled = (): boolean =>
@@ -45,6 +45,24 @@ const ModalProvider = ({ children }: IModalProvider) => {
   /* -------------------------------------------------------------------------- */
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
+  const renderOptions = (): JSX.Element => {
+    if (modal.payload.options && modal.payload.options.length > 0) {
+      return (
+        <div className="absolute top-10">
+          {modal.payload.options.map((option) => option.address)}
+        </div>
+      );
+    }
+    return (
+      <div
+        className="tooltip tooltip-left absolute right-3 top-1/2 text-error"
+        data-tip="Invalid address"
+      >
+        <BiSolidError />
+      </div>
+    );
+  };
+
   return (
     <ModalContext.Provider value={modal}>
       <dialog id={MODAL_ID} className="modal bg-neutral/75">
@@ -73,6 +91,15 @@ const ModalProvider = ({ children }: IModalProvider) => {
                 modal.handleOnChange('description', e.target.value)
               }
             />
+          </div>
+          <div className="relative my-4 flex flex-col space-y-2">
+            <span className="font-semibold">Location</span>
+            <input
+              className="input input-bordered px-3 placeholder:italic"
+              placeholder="Search for a location"
+              onChange={(e) => modal.handleOnChange('query', e.target.value)}
+            />
+            {renderOptions()}
           </div>
           <div className="mt-3 flex w-full flex-col-reverse md:flex-row md:space-x-4">
             <button

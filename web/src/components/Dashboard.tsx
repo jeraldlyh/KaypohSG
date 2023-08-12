@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { Container, IContribution } from '../common';
-import { ContributionService } from '../services/contribution';
+import { ContributionService } from '../services';
 import { Map } from './Map';
 import { NavBar } from './Navbar';
 import { Tabs } from './Tabs';
