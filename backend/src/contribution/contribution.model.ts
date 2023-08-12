@@ -13,6 +13,7 @@ interface IContribution extends IBaseModel {
   type: TType;
   description: string;
   createdBy: string;
+  location: string;
 }
 
 export class Contribution extends BaseModel implements IContribution {
@@ -26,6 +27,7 @@ export class Contribution extends BaseModel implements IContribution {
   @Transform(({ value }: TransformFnParams) => value?.trim())
   public description: string;
 
+  public location: string;
   public createdBy: string;
 
   constructor(
@@ -33,6 +35,7 @@ export class Contribution extends BaseModel implements IContribution {
     type: TType,
     description: string,
     createdBy: string,
+    location: string,
     isDeleted: boolean,
     createdAt: Date | Timestamp,
   ) {
@@ -40,6 +43,7 @@ export class Contribution extends BaseModel implements IContribution {
     this.type = type;
     this.description = description;
     this.createdBy = createdBy;
+    this.location = location;
   }
 }
 
@@ -50,6 +54,7 @@ export const ContributionConverter = {
       type: contribution.type,
       description: contribution.description,
       createdBy: contribution.createdBy,
+      location: contribution.location,
       isDeleted: contribution.isDeleted,
       createdAt: contribution.createdAt,
     };
@@ -63,6 +68,7 @@ export const ContributionConverter = {
       data.type,
       data.description,
       data.createdBy,
+      data.location,
       data.isDeleted,
       data.createdAt,
     );

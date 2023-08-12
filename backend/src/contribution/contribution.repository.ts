@@ -7,6 +7,21 @@ import { Contribution, ContributionConverter } from './contribution.model';
 export class ContributionRepository {
   private readonly contributionCollection: string = 'contribution';
 
+  async getAllContributionByLocation(
+    location: string,
+  ): Promise<Contribution[]> {
+    const result = await firebase
+      .firestore()
+      .collection(this.contributionCollection)
+      .withConverter(ContributionConverter)
+      .get();
+
+    // NOTE: Expensive computation by fetching all
+    return result.docs
+      .map((doc) => doc.data())
+      .filter((data) => data.location === location);
+  }
+
   async createContribution(contribution: Contribution): Promise<void> {
     const id = uuidv4();
     contribution.id = id;

@@ -8,8 +8,21 @@ export class ContributionService {
     private readonly contributionRepository: ContributionRepository,
   ) {}
 
-  async createContribution(username: string, contribution: Contribution) {
+  async getAllContributionByLocation(
+    location: string,
+  ): Promise<Contribution[]> {
+    return await this.contributionRepository.getAllContributionByLocation(
+      location,
+    );
+  }
+
+  async createContribution(
+    username: string,
+    location: string,
+    contribution: Contribution,
+  ) {
     contribution.createdBy = username;
+    contribution.location = location;
 
     return await this.contributionRepository.createContribution(contribution);
   }
