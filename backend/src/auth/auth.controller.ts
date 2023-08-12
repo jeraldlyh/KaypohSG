@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Query, Redirect } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Query,
+  Redirect,
+  Response,
+} from '@nestjs/common';
+import { Response as IResponse } from 'express';
 import { IRedirectUrl } from '../common';
 import { AuthService } from './auth.service';
 import { IQuery } from './auth.types';
@@ -16,7 +24,22 @@ export class AuthController {
   }
 
   @Get('/callback')
-  async callback(@Query() query: IQuery): Promise<void> {
-    return await this.authService.createAccount(query.username, query.address);
+  async callback(
+    @Query() query: IQuery,
+    @Response({ passthrough: true }) response: IResponse,
+  ): Promise<void> {
+    const token = await this.authService.createAccount(
+      query.username,
+      query.address,
+    );
+
+    response.cookie('accessToken', token, { httpOnly: true });
+  }
+
+  @Post('/logout')
+  async logout(
+    @Response({ passthrough: true }) response: IResponse,
+  ): Promise<void> {
+    response.clearCookie('accessToken', { httpOnly: true });
   }
 }

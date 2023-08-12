@@ -1,5 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { instanceToPlain } from 'class-transformer';
 import * as MyInfoConnector from 'myinfo-connector-nodejs';
 import { v4 as uuidv4 } from 'uuid';
 import { WEB_URL } from '../common';
@@ -15,6 +17,7 @@ export class AuthService {
   constructor(
     private readonly httpService: HttpService,
     private readonly authRepository: AuthRepository,
+    private readonly jwtService: JwtService,
   ) {
     this.myinfoConnector = new MyInfoConnector(MYINFO_CONFIG);
   }
@@ -28,20 +31,20 @@ export class AuthService {
     )}&redirect_uri=${WEB_URL}`;
   }
 
-  async createAccount(username: string, address: string) {
-    const location = await this.getCoordinatesFromLocation(address);
-    const account = new Account(
-      uuidv4(),
-      username,
-      location,
-      false,
-      new Date(),
-    );
+  async createAccount(username: string, address: string): Promise<string> {
+    let account = await this.authRepository.getAccount(username);
 
-    return await this.authRepository.createAccount(account);
+    if (!account) {
+      const location = await this._getCoordinatesFromLocation(address);
+      account = new Account(uuidv4(), username, location, false, new Date());
+
+      await this.authRepository.createAccount(account);
+    }
+
+    return await this._signToken(account);
   }
 
-  async getCoordinatesFromLocation(location: string): Promise<ICoordinate> {
+  async _getCoordinatesFromLocation(location: string): Promise<ICoordinate> {
     const response = await this.httpService.axiosRef.get<IOneMapResponse>(
       ONE_MAP_ENDPOINT,
       {
@@ -59,5 +62,9 @@ export class AuthService {
       lat: LATITUDE,
       lng: LONGITUDE,
     };
+  }
+
+  async _signToken(payload: Account): Promise<string> {
+    return await this.jwtService.signAsync(instanceToPlain(payload));
   }
 }
