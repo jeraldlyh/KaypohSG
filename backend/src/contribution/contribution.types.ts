@@ -8,4 +8,13 @@ export interface IContribution extends IBaseModel {
   description: string;
   createdBy: string;
   location: ICoordinates;
+  likes: string[];
+  dislikes: string[];
+}
+
+export interface IGetContribution extends IContribution {
+  actions: {
+    isLiked: boolean;
+    isDisliked: boolean;
+  };
 }

@@ -8,7 +8,7 @@ export class ContributionRepository {
   private readonly contributionCollection: string = 'contribution';
   private readonly LIMIT = 50;
 
-  async getAllContribution(): Promise<Contribution[]> {
+  async getAll(): Promise<Contribution[]> {
     const result = await firebase
       .firestore()
       .collection(this.contributionCollection)
@@ -20,11 +20,13 @@ export class ContributionRepository {
     return result.docs.map((doc) => doc.data());
   }
 
-  async createContribution(contribution: Contribution): Promise<void> {
+  async create(contribution: Contribution): Promise<void> {
     const id = uuidv4();
     contribution.id = id;
     contribution.isDeleted = false;
     contribution.createdAt = new Date();
+    contribution.likes = [];
+    contribution.dislikes = [];
 
     await firebase
       .firestore()
@@ -32,5 +34,25 @@ export class ContributionRepository {
       .doc(id)
       .withConverter(ContributionConverter)
       .set(contribution);
+  }
+
+  async updateLikes(
+    username: string,
+    id: string,
+    isDislike = false,
+  ): Promise<void> {
+    await firebase
+      .firestore()
+      .collection(this.contributionCollection)
+      .doc(id)
+      .update(
+        isDislike
+          ? {
+              dislikes: firebase.firestore.FieldValue.arrayUnion(username),
+            }
+          : {
+              likes: firebase.firestore.FieldValue.arrayUnion(username),
+            },
+      );
   }
 }
