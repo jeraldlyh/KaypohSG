@@ -19,3 +19,8 @@ export const WHITELISTED_ROUTES = new Set([
 
 export const BACKEND_BASE_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+
+export const SINGAPORE_CENTER_COORDINATES = {
+  lat: 1.3521,
+  lng: 103.8198,
+};

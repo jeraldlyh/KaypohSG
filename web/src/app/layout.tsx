@@ -13,9 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" data-theme="dracula">
-      <body>
-        <div className="flex h-screen w-screen justify-center">{children}</div>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
