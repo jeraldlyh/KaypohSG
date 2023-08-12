@@ -16,13 +16,9 @@ export class ContributionController {
 
   @Get('/location')
   async getAllByLocation(@Auth() auth: IAuth): Promise<IGetContribution[]> {
-    const { location } = auth;
-    console.log(auth);
+    const { location, username } = auth;
 
-    return await this.contributionService.getAllByLocation(
-      auth.username,
-      location,
-    );
+    return await this.contributionService.getAllByLocation(username, location);
   }
 
   @Post()

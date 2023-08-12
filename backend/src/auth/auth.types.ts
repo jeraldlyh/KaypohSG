@@ -39,4 +39,6 @@ export interface IOneMapResponse {
 
 export interface IAuth extends Account {
   token: string;
+  iat: string;
+  exp: string;
 }
