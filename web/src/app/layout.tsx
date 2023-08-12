@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Toaster } from 'react-hot-toast';
-import { ModalProvider } from '../providers';
+import { AuthProvider, ModalProvider } from '../providers';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -13,7 +13,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // TODO: add auth provider
   return (
     <html lang="en" data-theme="dracula">
       <body>
@@ -25,7 +24,9 @@ export default function RootLayout({
             duration: 5000,
           }}
         />
-        <ModalProvider>{children}</ModalProvider>
+        <AuthProvider>
+          <ModalProvider>{children}</ModalProvider>
+        </AuthProvider>
       </body>
     </html>
   );
