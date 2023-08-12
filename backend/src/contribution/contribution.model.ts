@@ -84,7 +84,7 @@ export const ContributionConverter = {
         lng: data.location.lng,
       },
       data.isDeleted,
-      data.createdAt,
+      (data.createdAt as Timestamp).toDate(),
     );
   },
 };

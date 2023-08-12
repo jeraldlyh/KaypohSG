@@ -1,21 +1,33 @@
 'use client';
 import clsx from 'clsx';
-import GoogleMapReact from 'google-map-react';
-import { useState } from 'react';
-import { Container, SINGAPORE_CENTER_COORDINATES, TType } from '../common';
-import { Marker } from './Marker';
+import { useEffect, useState } from 'react';
+import { Container, IContribution, TType } from '../common';
+import { ContributionService } from '../services/contribution';
 import { NavBar } from './Navbar';
+import { Section } from './Section';
 
 export const Dashboard = (): JSX.Element => {
   /* -------------------------------------------------------------------------- */
   /*                                    STATE                                   */
   /* -------------------------------------------------------------------------- */
-  const [display, setDisplay] = useState<string>('1');
   const [currentTab, setCurrentTab] = useState<TType>('info');
+  const [contributions, setContributions] = useState<IContribution[]>([]);
+
+  /* -------------------------------------------------------------------------- */
+  /*                                   EFFECTS                                  */
+  /* -------------------------------------------------------------------------- */
+  useEffect(() => {
+    fetchContributions();
+  }, []);
 
   /* -------------------------------------------------------------------------- */
   /*                              HANDLER FUNCTIONS                             */
   /* -------------------------------------------------------------------------- */
+  const fetchContributions = async () => {
+    const data = await ContributionService.getAll();
+    setContributions(data);
+  };
+
   const handleLogout = (): Promise<void> => {};
 
   const getTabClassName = (type: TType): string => {
@@ -29,6 +41,12 @@ export const Dashboard = (): JSX.Element => {
     setCurrentTab(type);
   };
 
+  const filterContributions = (): IContribution[] => {
+    return contributions.filter(
+      (contribution) => contribution.type === currentTab,
+    );
+  };
+
   /* -------------------------------------------------------------------------- */
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
@@ -36,29 +54,7 @@ export const Dashboard = (): JSX.Element => {
     <Container>
       <div className="w-full">
         <NavBar onLogout={handleLogout} />
-        <div className="mt-5 h-3/4 w-full overflow-hidden rounded-xl">
-          <GoogleMapReact
-            bootstrapURLKeys={{ key: process.env.NEXT_PUBLIC_API_KEY || '' }}
-            defaultZoom={12}
-            defaultCenter={SINGAPORE_CENTER_COORDINATES}
-            options={{
-              disableDoubleClickZoom: true,
-              clickableIcons: false,
-              maxZoom: 15,
-              minZoom: 12,
-            }}
-          >
-            <Marker
-              isOpen={display === '1'}
-              lat={1.3521}
-              lng={103.8198}
-              type="alert"
-              description="testing"
-              onOpen={() => setDisplay('1')}
-              onClose={() => setDisplay('')}
-            />
-          </GoogleMapReact>
-        </div>
+        {/* <Map /> */}
         <div className="mt-10 h-screen">
           <div className="tabs-boxed tabs flex-nowrap justify-around font-semibold uppercase">
             <a
@@ -80,6 +76,7 @@ export const Dashboard = (): JSX.Element => {
               Sighting
             </a>
           </div>
+          <Section data={filterContributions()} type={currentTab} />
         </div>
       </div>
     </Container>

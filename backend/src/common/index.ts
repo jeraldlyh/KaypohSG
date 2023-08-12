@@ -1,4 +1,4 @@
-export const WEB_URL = process.env.WEB_URL || 'http://localhost:3000/callback';
+export const WEB_URL = process.env.WEB_URL || 'http://localhost:3000';
 
 export const ENVIRONMENT =
   process.env.NODE_ENV === 'production' ? 'TEST' : 'TEST';

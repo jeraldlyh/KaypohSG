@@ -12,6 +12,9 @@ export const SERVER_ROUTES = {
     SIGN_IN: '/auth/signIn',
     VALIDATE: '/auth/validate',
   },
+  CONTRIBUTION: {
+    GET_ALL: '/contribution',
+  },
 };
 
 export const WHITELISTED_ROUTES = new Set([

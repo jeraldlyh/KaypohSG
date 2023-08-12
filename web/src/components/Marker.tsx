@@ -1,14 +1,12 @@
 import { clsx } from 'clsx';
 import { motion } from 'framer-motion';
-import { AiFillExclamationCircle, AiFillEye } from 'react-icons/ai';
 import {
   BsFillHandThumbsDownFill,
   BsFillHandThumbsUpFill,
 } from 'react-icons/bs';
 import { FaMapMarkerAlt } from 'react-icons/fa';
-import { GoAlertFill } from 'react-icons/go';
 import { RxCross2 } from 'react-icons/rx';
-import { TType } from '../common';
+import { Icon, TType } from '../common';
 
 interface IProps {
   lat: number;
@@ -26,17 +24,6 @@ export const Marker = (props: IProps): JSX.Element => {
   /* -------------------------------------------------------------------------- */
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
-  const renderIcon = (): JSX.Element | undefined => {
-    switch (type) {
-      case 'alert':
-        return <GoAlertFill />;
-      case 'info':
-        return <AiFillExclamationCircle />;
-      case 'sighting':
-        return <AiFillEye />;
-    }
-  };
-
   const renderMarker = (): JSX.Element => {
     if (!isOpen) {
       const iconClassName = clsx({
@@ -69,7 +56,7 @@ export const Marker = (props: IProps): JSX.Element => {
           <RxCross2 />
         </button>
         <div className="absolute left-1/2 top-0 inline-flex h-14 w-14  -translate-x-1/2 -translate-y-1/2 transform items-center justify-center rounded-full bg-base-100 text-lg">
-          {renderIcon()}
+          <Icon type={type} />
         </div>
         <div className="card-body">
           <h2 className="card-title self-center text-lg">

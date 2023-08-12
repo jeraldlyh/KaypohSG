@@ -1,7 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { CLIENT_ROUTES, Container } from '../common';
-import { SingpassIcon } from '../common/components/SingpassIcon';
+import { CLIENT_ROUTES, Container, SingpassIcon } from '../common';
 import { LandingIcon } from './LandingIcon';
 
 export const Landing = () => {

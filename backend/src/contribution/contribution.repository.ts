@@ -21,6 +21,8 @@ export class ContributionRepository {
   async createContribution(contribution: Contribution): Promise<void> {
     const id = uuidv4();
     contribution.id = id;
+    contribution.isDeleted = false;
+    contribution.createdAt = new Date();
 
     await firebase
       .firestore()

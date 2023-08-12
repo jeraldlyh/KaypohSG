@@ -2,9 +2,8 @@ import { AxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { CLIENT_ROUTES, IUser, WHITELISTED_ROUTES } from '../common';
+import { CLIENT_ROUTES, IUser, Utils, WHITELISTED_ROUTES } from '../common';
 import { AuthService } from '../services';
-import { Utils } from '../utils';
 
 export const useAuth = () => {
   /* -------------------------------------------------------------------------- */
