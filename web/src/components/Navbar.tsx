@@ -44,7 +44,7 @@ export const NavBar = (): JSX.Element => {
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
   return (
-    <div className="navbar rounded-box sticky top-3 z-10 flex justify-between bg-base-200 pl-5 pr-10 shadow-xl md:pl-6">
+    <div className="navbar rounded-box sticky top-3 z-30 flex justify-between bg-base-200 pl-5 pr-10 shadow-xl md:pl-6">
       <a className="btn btn-ghost gap-0 text-lg font-bold normal-case md:text-xl">
         Kaypoh
         <span className="text-custom-red">SG</span>
