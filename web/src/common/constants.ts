@@ -1,3 +1,5 @@
+import { IContribution } from './types';
+
 export const CLIENT_ROUTES = {
   LANDING: '/',
   HOME: '/home',
@@ -23,4 +25,11 @@ export const BACKEND_BASE_URL =
 export const SINGAPORE_CENTER_COORDINATES = {
   lat: 1.3521,
   lng: 103.8198,
+};
+
+export const MODAL_ID = 'modal';
+
+export const DEFAULT_CONTRIBUTION: IContribution = {
+  type: 'alert',
+  description: '',
 };

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ModalProvider } from '../providers';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -11,9 +12,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // TODO: add auth provider
   return (
     <html lang="en" data-theme="dracula">
-      <body>{children}</body>
+      <body>
+        <ModalProvider>{children}</ModalProvider>
+      </body>
     </html>
   );
 }

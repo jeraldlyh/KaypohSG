@@ -1,13 +1,23 @@
 'use client';
 import { useEffect } from 'react';
-import { BsFillMoonFill, BsFillSunFill } from 'react-icons/bs';
+import {
+  BsFillMoonFill,
+  BsFillSunFill,
+  BsPlusCircleFill,
+} from 'react-icons/bs';
 import { IoLogOut } from 'react-icons/io5';
+import { useModal } from '../hooks';
 
 interface IProps {
   onLogout: () => Promise<void>;
 }
 
 export const NavBar = ({ onLogout }: IProps): JSX.Element => {
+  /* -------------------------------------------------------------------------- */
+  /*                                    STATE                                   */
+  /* -------------------------------------------------------------------------- */
+  const { openModal } = useModal();
+
   /* -------------------------------------------------------------------------- */
   /*                                   EFFECTS                                  */
   /* -------------------------------------------------------------------------- */
@@ -43,6 +53,12 @@ export const NavBar = ({ onLogout }: IProps): JSX.Element => {
         <span className="text-custom-red">SG</span>
       </a>
       <div className="flex space-x-3">
+        <button
+          className="text-2xl hover:text-primary-focus"
+          onClick={openModal}
+        >
+          <BsPlusCircleFill />
+        </button>
         <label className="swap swap-rotate hover:text-primary-focus">
           <input type="checkbox" />
           <div

@@ -16,9 +16,7 @@ export const Dashboard = (): JSX.Element => {
   /* -------------------------------------------------------------------------- */
   /*                              HANDLER FUNCTIONS                             */
   /* -------------------------------------------------------------------------- */
-  const handleLogout = (): Promise<void> => {
-    console.log('logout');
-  };
+  const handleLogout = (): Promise<void> => {};
 
   const getTabClassName = (type: TType): string => {
     return clsx({
@@ -38,7 +36,7 @@ export const Dashboard = (): JSX.Element => {
     <Container>
       <div className="w-full">
         <NavBar onLogout={handleLogout} />
-        <div className="mt-5 h-3/4 w-full overflow-hidden rounded-2xl">
+        <div className="mt-5 h-3/4 w-full overflow-hidden rounded-xl">
           <GoogleMapReact
             bootstrapURLKeys={{ key: process.env.NEXT_PUBLIC_API_KEY || '' }}
             defaultZoom={12}
