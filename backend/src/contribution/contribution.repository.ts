@@ -7,9 +7,7 @@ import { Contribution, ContributionConverter } from './contribution.model';
 export class ContributionRepository {
   private readonly contributionCollection: string = 'contribution';
 
-  async getAllContributionByLocation(
-    location: string,
-  ): Promise<Contribution[]> {
+  async getAllContribution(): Promise<Contribution[]> {
     const result = await firebase
       .firestore()
       .collection(this.contributionCollection)
@@ -17,9 +15,7 @@ export class ContributionRepository {
       .get();
 
     // NOTE: Expensive computation by fetching all
-    return result.docs
-      .map((doc) => doc.data())
-      .filter((data) => data.location === location);
+    return result.docs.map((doc) => doc.data());
   }
 
   async createContribution(contribution: Contribution): Promise<void> {

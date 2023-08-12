@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ICoordinates } from '../auth/auth.types';
 import { Contribution } from './contribution.model';
 import { ContributionRepository } from './contribution.repository';
 
@@ -8,22 +9,38 @@ export class ContributionService {
     private readonly contributionRepository: ContributionRepository,
   ) {}
 
+  async getAllContribution(): Promise<Contribution[]> {
+    return await this.contributionRepository.getAllContribution();
+  }
+
   async getAllContributionByLocation(
-    location: string,
+    location: ICoordinates,
   ): Promise<Contribution[]> {
-    return await this.contributionRepository.getAllContributionByLocation(
-      location,
+    const contributions =
+      await this.contributionRepository.getAllContribution();
+
+    return contributions.filter((contribution) =>
+      this._isWithinAcceptableRadius(location, contribution.location),
     );
   }
 
-  async createContribution(
-    username: string,
-    location: string,
-    contribution: Contribution,
-  ) {
+  async createContribution(username: string, contribution: Contribution) {
     contribution.createdBy = username;
-    contribution.location = location;
 
     return await this.contributionRepository.createContribution(contribution);
+  }
+
+  // NOTE: Ideally to retrieve by town
+  _isWithinAcceptableRadius(
+    source: ICoordinates,
+    destination: ICoordinates,
+  ): boolean {
+    const expectedY = 0.006;
+    const expectedX = 0.005;
+
+    const computedX = Math.abs(+source.lng - +destination.lng);
+    const computedY = Math.abs(+source.lat - +destination.lat);
+
+    return computedX <= expectedX && computedY <= expectedY;
   }
 }

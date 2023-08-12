@@ -1,11 +1,26 @@
-import { IsIn } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsIn,
+  IsNotEmptyObject,
+  IsObject,
+  ValidateNested,
+} from 'class-validator';
 import {
   DocumentData,
   QueryDocumentSnapshot,
   Timestamp,
 } from 'firebase-admin/firestore';
+import { ICoordinates } from '../auth/auth.types';
 import { BaseModel, IsNotEmptyString } from '../common';
 import { IContribution, TType } from './contribution.types';
+
+class Coordinates implements ICoordinates {
+  @IsNotEmptyString()
+  public lat: string;
+
+  @IsNotEmptyString()
+  public lng: string;
+}
 
 export class Contribution extends BaseModel implements IContribution {
   @IsNotEmptyString()
@@ -15,7 +30,12 @@ export class Contribution extends BaseModel implements IContribution {
   @IsNotEmptyString()
   public description: string;
 
-  public location: string;
+  @ValidateNested()
+  @IsObject()
+  @IsNotEmptyObject()
+  @Type(() => Coordinates)
+  public location: Coordinates;
+
   public createdBy: string;
 
   constructor(
@@ -23,7 +43,7 @@ export class Contribution extends BaseModel implements IContribution {
     type: TType,
     description: string,
     createdBy: string,
-    location: string,
+    location: ICoordinates,
     isDeleted: boolean,
     createdAt: Date | Timestamp,
   ) {
@@ -42,7 +62,10 @@ export const ContributionConverter = {
       type: contribution.type,
       description: contribution.description,
       createdBy: contribution.createdBy,
-      location: contribution.location,
+      location: {
+        lat: contribution.location.lat,
+        lng: contribution.location.lng,
+      },
       isDeleted: contribution.isDeleted,
       createdAt: contribution.createdAt,
     };
@@ -56,7 +79,10 @@ export const ContributionConverter = {
       data.type,
       data.description,
       data.createdBy,
-      data.location,
+      {
+        lat: data.location.lat,
+        lng: data.location.lng,
+      },
       data.isDeleted,
       data.createdAt,
     );
