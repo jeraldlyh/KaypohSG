@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 import { AiFillCalendar } from 'react-icons/ai';
 import {
   BsFillHandThumbsDownFill,
@@ -8,23 +9,31 @@ import {
 } from 'react-icons/bs';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { RxCross2 } from 'react-icons/rx';
-import { Icon, TType } from '../common';
+import { Icon, IContribution, Utils } from '../common';
+import { ContributionService } from '../services';
 
-interface IProps {
+interface IProps extends IContribution {
   lat: number;
   lng: number;
-  type: TType;
-  description: string;
   isOpen: boolean;
-  createdAt: string;
-  createdBy: string;
+  refetchData: () => Promise<void>;
   onOpen: () => void;
   onClose: () => void;
 }
 
 export const Marker = (props: IProps): JSX.Element => {
-  const { type, description, isOpen, createdAt, createdBy, onOpen, onClose } =
-    props;
+  const {
+    id,
+    type,
+    description,
+    isOpen,
+    createdAt,
+    createdBy,
+    actions: { isLiked, isDisliked },
+    refetchData,
+    onOpen,
+    onClose,
+  } = props;
 
   /* -------------------------------------------------------------------------- */
   /*                              HELPER FUNCTIONS                              */
@@ -36,6 +45,27 @@ export const Marker = (props: IProps): JSX.Element => {
       year: 'numeric',
     });
   };
+
+  const handleLike = async (): Promise<void> => {
+    await toast.promise(ContributionService.like(id), {
+      loading: 'Attempting to like the contribution',
+      success: `Successfully liked the contribution`,
+      error: (e) => Utils.capitalize(e.response.data.message.toString()),
+    });
+    await refetchData();
+  };
+
+  const handleDislike = async (): Promise<void> => {
+    await toast.promise(ContributionService.dislike(id), {
+      loading: 'Attempting to dislike the contribution',
+      success: `Successfully disliked the contribution`,
+      error: (e) => Utils.capitalize(e.response.data.message.toString()),
+    });
+    await refetchData();
+  };
+
+  // NOTE: Prevent user from liking and disliking the contribution at the same time
+  const isButtonDisabled = (): boolean => isLiked || isDisliked;
 
   /* -------------------------------------------------------------------------- */
   /*                                   RENDER                                   */
@@ -95,10 +125,18 @@ export const Marker = (props: IProps): JSX.Element => {
           </div>
           <div className="divider m-0" />
           <div className="card-actions justify-center">
-            <button className="btn btn-secondary btn-sm">
+            <button
+              className="btn btn-secondary btn-sm"
+              onClick={handleLike}
+              disabled={isButtonDisabled()}
+            >
               <BsFillHandThumbsUpFill />
             </button>
-            <button className="btn btn-primary btn-sm">
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={handleDislike}
+              disabled={isButtonDisabled()}
+            >
               <BsFillHandThumbsDownFill />
             </button>
           </div>

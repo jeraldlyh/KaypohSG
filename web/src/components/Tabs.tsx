@@ -6,11 +6,13 @@ import { Section } from './Section';
 interface IProps {
   contributions: IContribution[];
   setDisplayContributionId: React.Dispatch<React.SetStateAction<string>>;
+  refetchData: () => Promise<void>;
 }
 
 export const Tabs = ({
   contributions,
   setDisplayContributionId,
+  refetchData,
 }: IProps): JSX.Element => {
   /* -------------------------------------------------------------------------- */
   /*                                    STATE                                   */
@@ -65,6 +67,7 @@ export const Tabs = ({
       <Section
         data={filterContributions()}
         setDisplayContributionId={setDisplayContributionId}
+        refetchData={refetchData}
       />
     </div>
   );

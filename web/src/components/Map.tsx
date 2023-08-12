@@ -7,11 +7,13 @@ interface IProps {
   contributions: IContribution[];
   setDisplayContributionId: React.Dispatch<React.SetStateAction<string>>;
   onClose: () => void;
+  refetchData: () => Promise<void>;
 }
 
 export const Map = ({
   displayContributionId,
   contributions,
+  refetchData,
   setDisplayContributionId,
   onClose,
 }: IProps): JSX.Element => {
@@ -21,14 +23,12 @@ export const Map = ({
   const renderMarkers = (): JSX.Element[] => {
     return contributions.map((contribution) => (
       <Marker
+        {...contribution}
         key={contribution.id}
         isOpen={displayContributionId === contribution.id}
         lat={+contribution.location.lat}
         lng={+contribution.location.lng}
-        type={contribution.type}
-        createdBy={contribution.createdBy}
-        createdAt={contribution.createdAt}
-        description={contribution.description}
+        refetchData={refetchData}
         onOpen={() => setDisplayContributionId(contribution.id)}
         onClose={onClose}
       />

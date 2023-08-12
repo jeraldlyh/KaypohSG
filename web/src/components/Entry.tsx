@@ -1,14 +1,17 @@
 import clsx from 'clsx';
+import toast from 'react-hot-toast';
 import { AiFillEye } from 'react-icons/ai';
 import {
   BsFillHandThumbsDownFill,
   BsFillHandThumbsUpFill,
   BsFillMapFill,
 } from 'react-icons/bs';
-import { Icon, IContribution } from '../common';
+import { Icon, IContribution, Utils } from '../common';
+import { ContributionService } from '../services';
 
 interface IProps extends IContribution {
   onView: () => void;
+  refetchData: () => Promise<void>;
 }
 
 export const Entry = ({
@@ -18,7 +21,11 @@ export const Entry = ({
   createdBy,
   description,
   location,
+  likes,
+  dislikes,
+  actions: { isLiked, isDisliked },
   onView,
+  refetchData,
 }: IProps): JSX.Element => {
   /* -------------------------------------------------------------------------- */
   /*                              HELPER FUNCTIONS                              */
@@ -53,6 +60,27 @@ export const Entry = ({
     });
   };
 
+  const handleLike = async (): Promise<void> => {
+    await toast.promise(ContributionService.like(id), {
+      loading: 'Attempting to like the contribution',
+      success: `Successfully liked the contribution`,
+      error: (e) => Utils.capitalize(e.response.data.message.toString()),
+    });
+    await refetchData();
+  };
+
+  const handleDislike = async (): Promise<void> => {
+    await toast.promise(ContributionService.dislike(id), {
+      loading: 'Attempting to dislike the contribution',
+      success: `Successfully disliked the contribution`,
+      error: (e) => Utils.capitalize(e.response.data.message.toString()),
+    });
+    await refetchData();
+  };
+
+  // NOTE: Prevent user from liking and disliking the contribution at the same time
+  const isButtonDisabled = (): boolean => isLiked || isDisliked;
+
   /* -------------------------------------------------------------------------- */
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
@@ -77,10 +105,18 @@ export const Entry = ({
           <button className="btn" onClick={handleOnView}>
             <AiFillEye />
           </button>
-          <button className="btn">
+          <button
+            className="btn"
+            onClick={handleLike}
+            disabled={isButtonDisabled()}
+          >
             <BsFillHandThumbsUpFill />
           </button>
-          <button className="btn">
+          <button
+            className="btn"
+            onClick={handleDislike}
+            disabled={isButtonDisabled()}
+          >
             <BsFillHandThumbsDownFill />
           </button>
         </div>

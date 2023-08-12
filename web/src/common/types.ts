@@ -17,6 +17,12 @@ export interface IContribution {
   createdBy: string;
   location: ICoordinates;
   createdAt: string;
+  likes: string[];
+  dislikes: string[];
+  actions: {
+    isLiked: boolean;
+    isDisliked: boolean;
+  };
 }
 
 export interface ICreateContributionDto {

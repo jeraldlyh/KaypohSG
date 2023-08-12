@@ -15,6 +15,8 @@ export const SERVER_ROUTES = {
   CONTRIBUTION: {
     GET_ALL: '/contribution',
     CREATE: '/contribution',
+    LIKE: '/contribution/like',
+    DISLIKE: '/contribution/dislike',
   },
   ONE_MAP: {
     SEARCH: '/one-map/search',
