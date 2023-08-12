@@ -44,20 +44,22 @@ const ModalProvider = ({ children }: IModalProvider) => {
   /*                              HELPER FUNCTIONS                              */
   /* -------------------------------------------------------------------------- */
   const handleOnSubmit = async (): Promise<void> => {
-    await toast.promise(
-      ContributionService.create({
-        type: modal.payload.type,
-        location: modal.payload.location,
-        description: modal.payload.description,
-      }),
-      {
-        loading: 'Attempting to contribute',
-        success: 'Successfully contributed',
-        error: (e) => Utils.capitalize(e.response.data.message.toString()),
-      },
-    );
-    modal.resetPayload();
-    modal.closeModal();
+    try {
+      await toast.promise(
+        ContributionService.create({
+          type: modal.payload.type,
+          location: modal.payload.location,
+          description: modal.payload.description,
+        }),
+        {
+          loading: 'Attempting to contribute',
+          success: 'Successfully contributed',
+          error: (e) => Utils.capitalize(e.response.data.message.toString()),
+        },
+      );
+    } finally {
+      handleClose();
+    }
   };
 
   const handleClose = (): void => {

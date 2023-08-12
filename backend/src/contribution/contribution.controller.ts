@@ -30,9 +30,13 @@ export class ContributionController {
     @Auth() auth: IAuth,
     @Body() contribution: Contribution,
   ): Promise<void> {
-    const { username } = auth;
+    const { username, location } = auth;
 
-    return await this.contributionService.create(username, contribution);
+    return await this.contributionService.create(
+      username,
+      location,
+      contribution,
+    );
   }
 
   @Get('/like/:id')

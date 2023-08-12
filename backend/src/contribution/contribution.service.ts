@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ICoordinates } from '../auth/auth.types';
 import { Contribution } from './contribution.model';
 import { ContributionRepository } from './contribution.repository';
@@ -29,8 +29,18 @@ export class ContributionService {
     return this._appendUserActions(filteredContributions, username);
   }
 
-  async create(username: string, contribution: Contribution): Promise<void> {
+  async create(
+    username: string,
+    location: ICoordinates,
+    contribution: Contribution,
+  ): Promise<void> {
     contribution.createdBy = username;
+
+    if (!this._isWithinAcceptableRadius(location, contribution.location)) {
+      throw new BadRequestException(
+        'You are only allowed to contribute to your vicinity',
+      );
+    }
 
     return await this.contributionRepository.create(contribution);
   }

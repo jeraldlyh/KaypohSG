@@ -21,7 +21,6 @@ export default function RootLayout({
           position="top-center"
           reverseOrder={false}
           gutter={8}
-          containerClassName=""
           toastOptions={{
             duration: 5000,
           }}
