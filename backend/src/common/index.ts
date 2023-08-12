@@ -6,3 +6,6 @@ export const ENVIRONMENT =
 export interface IRedirectUrl {
   url: string;
 }
+
+export * from './base.model';
+export * from './decorator';

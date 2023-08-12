@@ -1,30 +1,18 @@
-import { Transform, TransformFnParams } from 'class-transformer';
-import { IsIn, IsNotEmpty, IsString } from 'class-validator';
+import { IsIn } from 'class-validator';
 import {
   DocumentData,
   QueryDocumentSnapshot,
   Timestamp,
 } from 'firebase-admin/firestore';
-import { BaseModel, IBaseModel } from '../common/base.model';
-
-type TType = 'info' | 'sighting' | 'alert';
-
-interface IContribution extends IBaseModel {
-  type: TType;
-  description: string;
-  createdBy: string;
-  location: string;
-}
+import { BaseModel, IsNotEmptyString } from '../common';
+import { IContribution, TType } from './contribution.types';
 
 export class Contribution extends BaseModel implements IContribution {
-  @IsString()
-  @IsNotEmpty()
+  @IsNotEmptyString()
   @IsIn(['info', 'sighting', 'alert'])
   public type: TType;
 
-  @IsString()
-  @IsNotEmpty()
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  @IsNotEmptyString()
   public description: string;
 
   public location: string;
