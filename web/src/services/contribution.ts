@@ -1,4 +1,8 @@
-import { IContribution, SERVER_ROUTES } from '../common';
+import {
+  IContribution,
+  ICreateContributionDto,
+  SERVER_ROUTES,
+} from '../common';
 import AxiosService from './axios';
 
 const getAll = async (): Promise<IContribution[]> => {
@@ -9,6 +13,14 @@ const getAll = async (): Promise<IContribution[]> => {
   return result.data;
 };
 
+const create = async (contribution: ICreateContributionDto): Promise<void> => {
+  return await AxiosService.post(
+    SERVER_ROUTES.CONTRIBUTION.CREATE,
+    contribution,
+  );
+};
+
 export const ContributionService = {
   getAll,
+  create,
 };

@@ -7,7 +7,7 @@ export type TType = 'info' | 'alert' | 'sighting';
 export interface ICoordinates {
   lat: string;
   lng: string;
-  address?: string;
+  address: string;
 }
 
 export interface IContribution {
@@ -16,7 +16,18 @@ export interface IContribution {
   description: string;
   createdBy: string;
   location: ICoordinates;
-  query: string;
-  options: ICoordinates[];
   createdAt: string;
+}
+
+export interface ICreateContributionDto {
+  type: TType;
+  description: string;
+  location: ICoordinates;
+}
+
+export interface IModalState {
+  location: ICoordinates;
+  type: TType;
+  description: string;
+  options: ICoordinates[];
 }

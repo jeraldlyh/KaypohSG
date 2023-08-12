@@ -1,4 +1,4 @@
-import { IContribution } from './types';
+import { IModalState } from './types';
 
 export const CLIENT_ROUTES = {
   LANDING: '/',
@@ -14,6 +14,7 @@ export const SERVER_ROUTES = {
   },
   CONTRIBUTION: {
     GET_ALL: '/contribution',
+    CREATE: '/contribution',
   },
   ONE_MAP: {
     SEARCH: '/one-map/search',
@@ -35,8 +36,13 @@ export const SINGAPORE_CENTER_COORDINATES = {
 
 export const MODAL_ID = 'modal';
 
-export const DEFAULT_CONTRIBUTION: Partial<IContribution> = {
-  type: 'alert',
+export const DEFAULT_PAYLOAD: IModalState = {
+  type: 'info',
   description: '',
-  query: '',
+  location: {
+    lat: '',
+    lng: '',
+    address: '',
+  },
+  options: [],
 };

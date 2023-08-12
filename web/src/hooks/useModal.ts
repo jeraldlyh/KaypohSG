@@ -1,21 +1,16 @@
-import { useState } from 'react';
-import { DEFAULT_CONTRIBUTION, IContribution, MODAL_ID } from '../common';
+import { useEffect, useState } from 'react';
+import { DEFAULT_PAYLOAD, IModalState, MODAL_ID } from '../common';
 import { OneMapService } from '../services';
 
 export const useModal = () => {
   /* -------------------------------------------------------------------------- */
   /*                                    STATE                                   */
   /* -------------------------------------------------------------------------- */
-  const [payload, setPayload] =
-    useState<Partial<IContribution>>(DEFAULT_CONTRIBUTION);
+  const [payload, setPayload] = useState<IModalState>(DEFAULT_PAYLOAD);
 
-  /* -------------------------------------------------------------------------- */
-  /*                                   EFFECTS                                  */
-  /* -------------------------------------------------------------------------- */
-  //   useEffect(() => {
-  //     const debouncedSearch = debounce(searchAddress, 3000);
-  //     debouncedSearch(payload.query);
-  //   }, [payload.query]);
+  useEffect(() => {
+    console.log(payload);
+  }, [payload]);
 
   /* -------------------------------------------------------------------------- */
   /*                              HELPER FUNCTIONS                              */
@@ -58,10 +53,11 @@ export const useModal = () => {
   const handleDebouncedSearch = debounce(searchAddress, 1500);
 
   const handleOnChange = (
-    key: 'type' | 'description' | 'query',
-    value: string,
+    key: 'type' | 'description' | 'query' | 'location' | 'options',
+    value: string | object,
+    ignoreDebounce = false,
   ): void => {
-    if (key === 'query') {
+    if (key === 'query' && !ignoreDebounce) {
       handleDebouncedSearch(value);
     } else {
       setPayload({
@@ -71,7 +67,7 @@ export const useModal = () => {
     }
   };
 
-  const resetPayload = (): void => setPayload(DEFAULT_CONTRIBUTION);
+  const resetPayload = (): void => setPayload(DEFAULT_PAYLOAD);
 
   return { payload, openModal, closeModal, resetPayload, handleOnChange };
 };
