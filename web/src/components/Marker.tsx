@@ -29,6 +29,8 @@ export const Marker = (props: IProps): JSX.Element => {
     isOpen,
     createdAt,
     createdBy,
+    likes,
+    dislikes,
     actions: { isLiked, isDisliked },
     refetchData,
     onOpen,
@@ -124,20 +126,26 @@ export const Marker = (props: IProps): JSX.Element => {
             </div>
           </div>
           <div className="divider m-0" />
-          <div className="card-actions justify-center">
+          <div className="card-actions flex-nowrap justify-center">
             <button
-              className="btn btn-secondary btn-sm"
+              className="btn btn-sm relative w-full shrink"
               onClick={handleLike}
               disabled={isButtonDisabled()}
             >
               <BsFillHandThumbsUpFill />
+              <span className="absolute right-0 top-0 inline-flex h-4 w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-success text-neutral">
+                {likes.length}
+              </span>
             </button>
             <button
-              className="btn btn-primary btn-sm"
+              className="btn btn-sm relative w-full shrink"
               onClick={handleDislike}
               disabled={isButtonDisabled()}
             >
               <BsFillHandThumbsDownFill />
+              <span className="absolute right-0 top-0 inline-flex h-4 w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-error text-neutral">
+                {dislikes.length}
+              </span>
             </button>
           </div>
         </div>

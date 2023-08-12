@@ -106,18 +106,24 @@ export const Entry = ({
             <AiFillEye />
           </button>
           <button
-            className="btn"
+            className="btn relative"
             onClick={handleLike}
             disabled={isButtonDisabled()}
           >
             <BsFillHandThumbsUpFill />
+            <span className="absolute right-0 top-0 inline-flex h-4 w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-success text-neutral">
+              {likes.length}
+            </span>
           </button>
           <button
-            className="btn"
+            className="btn relative"
             onClick={handleDislike}
             disabled={isButtonDisabled()}
           >
             <BsFillHandThumbsDownFill />
+            <span className="absolute right-0 top-0 inline-flex h-4 w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-error text-neutral">
+              {dislikes.length}
+            </span>
           </button>
         </div>
       </div>
