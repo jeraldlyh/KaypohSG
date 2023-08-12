@@ -56,7 +56,7 @@ export const NavBar = (): JSX.Element => {
         >
           <BsPlusCircleFill />
         </button>
-        <label className="swap-rotate swap hover:text-primary-focus">
+        <label className="swap swap-rotate hover:text-primary-focus">
           <input type="checkbox" />
           <div
             onClick={handleThemeChange}

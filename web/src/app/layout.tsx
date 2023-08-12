@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Toaster } from 'react-hot-toast';
 import { ModalProvider } from '../providers';
 import './globals.css';
 
@@ -16,6 +17,15 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dracula">
       <body>
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          gutter={8}
+          containerClassName=""
+          toastOptions={{
+            duration: 5000,
+          }}
+        />
         <ModalProvider>{children}</ModalProvider>
       </body>
     </html>
