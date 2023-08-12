@@ -18,6 +18,7 @@ export class ContributionController {
     @Auth() auth: IAuth,
   ): Promise<Contribution[]> {
     const { location } = auth;
+    console.log(auth);
 
     return await this.contributionService.getAllContributionByLocation(
       location,

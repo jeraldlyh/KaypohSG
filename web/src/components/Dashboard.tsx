@@ -1,16 +1,17 @@
 'use client';
-import clsx from 'clsx';
 import { useEffect, useState } from 'react';
-import { Container, IContribution, TType } from '../common';
+import { Container, IContribution } from '../common';
 import { ContributionService } from '../services/contribution';
+import { Map } from './Map';
 import { NavBar } from './Navbar';
-import { Section } from './Section';
+import { Tabs } from './Tabs';
 
 export const Dashboard = (): JSX.Element => {
   /* -------------------------------------------------------------------------- */
   /*                                    STATE                                   */
   /* -------------------------------------------------------------------------- */
-  const [currentTab, setCurrentTab] = useState<TType>('info');
+  const [displayContributionId, setDisplayContributionId] =
+    useState<string>('');
   const [contributions, setContributions] = useState<IContribution[]>([]);
 
   /* -------------------------------------------------------------------------- */
@@ -30,23 +31,6 @@ export const Dashboard = (): JSX.Element => {
 
   const handleLogout = (): Promise<void> => {};
 
-  const getTabClassName = (type: TType): string => {
-    return clsx({
-      'tab w-full flex-nowrap self-center py-6 text-lg': true,
-      'tab-active': currentTab === type,
-    });
-  };
-
-  const handleTabChange = (type: TType): void => {
-    setCurrentTab(type);
-  };
-
-  const filterContributions = (): IContribution[] => {
-    return contributions.filter(
-      (contribution) => contribution.type === currentTab,
-    );
-  };
-
   /* -------------------------------------------------------------------------- */
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
@@ -54,30 +38,13 @@ export const Dashboard = (): JSX.Element => {
     <Container>
       <div className="w-full">
         <NavBar onLogout={handleLogout} />
-        {/* <Map /> */}
-        <div className="mt-10 h-screen">
-          <div className="tabs-boxed tabs flex-nowrap justify-around font-semibold uppercase">
-            <a
-              className={getTabClassName('info')}
-              onClick={() => handleTabChange('info')}
-            >
-              Info
-            </a>
-            <a
-              className={getTabClassName('alert')}
-              onClick={() => handleTabChange('alert')}
-            >
-              Alert
-            </a>
-            <a
-              className={getTabClassName('sighting')}
-              onClick={() => handleTabChange('sighting')}
-            >
-              Sighting
-            </a>
-          </div>
-          <Section data={filterContributions()} type={currentTab} />
-        </div>
+        <Map
+          displayContributionId={displayContributionId}
+          contributions={contributions}
+          setDisplayContributionId={setDisplayContributionId}
+          onClose={() => setDisplayContributionId('')}
+        />
+        <Tabs contributions={contributions} />
       </div>
     </Container>
   );

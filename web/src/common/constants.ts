@@ -32,7 +32,7 @@ export const SINGAPORE_CENTER_COORDINATES = {
 
 export const MODAL_ID = 'modal';
 
-export const DEFAULT_CONTRIBUTION: IContribution = {
+export const DEFAULT_CONTRIBUTION: Partial<IContribution> = {
   type: 'alert',
   description: '',
 };

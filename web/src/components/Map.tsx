@@ -1,13 +1,39 @@
 import GoogleMapReact from 'google-map-react';
-import { useState } from 'react';
-import { SINGAPORE_CENTER_COORDINATES } from '../common';
+import { IContribution, SINGAPORE_CENTER_COORDINATES } from '../common';
 import { Marker } from './Marker';
 
-export const Map = (): JSX.Element => {
+interface IProps {
+  displayContributionId: string;
+  contributions: IContribution[];
+  setDisplayContributionId: React.Dispatch<React.SetStateAction<string>>;
+  onClose: () => void;
+}
+
+export const Map = ({
+  displayContributionId,
+  contributions,
+  setDisplayContributionId,
+  onClose,
+}: IProps): JSX.Element => {
   /* -------------------------------------------------------------------------- */
-  /*                                    STATE                                   */
+  /*                              HELPER FUNCTIONS                              */
   /* -------------------------------------------------------------------------- */
-  const [display, setDisplay] = useState<string>('1');
+  const renderMarkers = (): JSX.Element[] => {
+    return contributions.map((contribution) => (
+      <Marker
+        key={contribution.id}
+        isOpen={displayContributionId === contribution.id}
+        lat={+contribution.location.lat}
+        lng={+contribution.location.lng}
+        type={contribution.type}
+        createdBy={contribution.createdBy}
+        createdAt={contribution.createdAt}
+        description={contribution.description}
+        onOpen={() => setDisplayContributionId(contribution.id)}
+        onClose={onClose}
+      />
+    ));
+  };
 
   /* -------------------------------------------------------------------------- */
   /*                                   RENDER                                   */
@@ -25,15 +51,7 @@ export const Map = (): JSX.Element => {
           minZoom: 12,
         }}
       >
-        <Marker
-          isOpen={display === '1'}
-          lat={1.3521}
-          lng={103.8198}
-          type="alert"
-          description="testing"
-          onOpen={() => setDisplay('1')}
-          onClose={() => setDisplay('')}
-        />
+        {renderMarkers()}
       </GoogleMapReact>
     </div>
   );

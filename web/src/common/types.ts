@@ -10,10 +10,10 @@ export interface ICoordinates {
 }
 
 export interface IContribution {
-  id?: string;
+  id: string;
   type: TType;
   description: string;
-  createdBy?: string;
-  location?: ICoordinates;
+  createdBy: string;
+  location: ICoordinates;
   createdAt: string;
 }
