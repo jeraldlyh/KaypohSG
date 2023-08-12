@@ -6,17 +6,14 @@ import {
   BsPlusCircleFill,
 } from 'react-icons/bs';
 import { IoLogOut } from 'react-icons/io5';
-import { useModal } from '../hooks';
+import { useAuth, useModal } from '../hooks';
 
-interface IProps {
-  onLogout: () => Promise<void>;
-}
-
-export const NavBar = ({ onLogout }: IProps): JSX.Element => {
+export const NavBar = (): JSX.Element => {
   /* -------------------------------------------------------------------------- */
   /*                                    STATE                                   */
   /* -------------------------------------------------------------------------- */
   const { openModal } = useModal();
+  const { signOut } = useAuth();
 
   /* -------------------------------------------------------------------------- */
   /*                                   EFFECTS                                  */
@@ -59,7 +56,7 @@ export const NavBar = ({ onLogout }: IProps): JSX.Element => {
         >
           <BsPlusCircleFill />
         </button>
-        <label className="swap swap-rotate hover:text-primary-focus">
+        <label className="swap-rotate swap hover:text-primary-focus">
           <input type="checkbox" />
           <div
             onClick={handleThemeChange}
@@ -74,10 +71,7 @@ export const NavBar = ({ onLogout }: IProps): JSX.Element => {
             <BsFillSunFill />
           </div>
         </label>
-        <button
-          className="text-2xl hover:text-primary-focus"
-          onClick={onLogout}
-        >
+        <button className="text-2xl hover:text-primary-focus" onClick={signOut}>
           <IoLogOut />
         </button>
       </div>

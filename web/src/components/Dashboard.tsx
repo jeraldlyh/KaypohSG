@@ -29,22 +29,23 @@ export const Dashboard = (): JSX.Element => {
     setContributions(data);
   };
 
-  const handleLogout = (): Promise<void> => {};
-
   /* -------------------------------------------------------------------------- */
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
   return (
     <Container>
       <div className="w-full">
-        <NavBar onLogout={handleLogout} />
+        <NavBar />
         <Map
           displayContributionId={displayContributionId}
           contributions={contributions}
           setDisplayContributionId={setDisplayContributionId}
           onClose={() => setDisplayContributionId('')}
         />
-        <Tabs contributions={contributions} />
+        <Tabs
+          contributions={contributions}
+          setDisplayContributionId={setDisplayContributionId}
+        />
       </div>
     </Container>
   );

@@ -1,13 +1,17 @@
 import { clsx } from 'clsx';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { IContribution, TType } from '../common';
 import { Section } from './Section';
 
 interface IProps {
   contributions: IContribution[];
+  setDisplayContributionId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const Tabs = ({ contributions }: IProps): JSX.Element => {
+export const Tabs = ({
+  contributions,
+  setDisplayContributionId,
+}: IProps): JSX.Element => {
   /* -------------------------------------------------------------------------- */
   /*                                    STATE                                   */
   /* -------------------------------------------------------------------------- */
@@ -58,7 +62,10 @@ export const Tabs = ({ contributions }: IProps): JSX.Element => {
           Sighting
         </a>
       </div>
-      <Section data={filterContributions()} type={currentTab} />
+      <Section
+        data={filterContributions()}
+        setDisplayContributionId={setDisplayContributionId}
+      />
     </div>
   );
 };

@@ -3,9 +3,13 @@ import { Entry } from './Entry';
 
 interface IProps {
   data: IContribution[];
+  setDisplayContributionId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const Section = ({ data }: IProps): JSX.Element => {
+export const Section = ({
+  data,
+  setDisplayContributionId,
+}: IProps): JSX.Element => {
   /* -------------------------------------------------------------------------- */
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
@@ -19,7 +23,9 @@ export const Section = ({ data }: IProps): JSX.Element => {
         </div>
       );
     }
-    return data.map((data) => <Entry {...data} />);
+    return data.map((data) => (
+      <Entry {...data} onView={() => setDisplayContributionId(data.id)} />
+    ));
   };
 
   return (

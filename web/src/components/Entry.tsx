@@ -3,11 +3,13 @@ import { AiFillEye } from 'react-icons/ai';
 import {
   BsFillHandThumbsDownFill,
   BsFillHandThumbsUpFill,
+  BsFillMapFill,
 } from 'react-icons/bs';
-import { ImForward } from 'react-icons/im';
 import { Icon, IContribution } from '../common';
 
-interface IProps extends IContribution {}
+interface IProps extends IContribution {
+  onView: () => void;
+}
 
 export const Entry = ({
   id,
@@ -15,12 +17,14 @@ export const Entry = ({
   createdAt,
   createdBy,
   description,
+  location,
+  onView,
 }: IProps): JSX.Element => {
   /* -------------------------------------------------------------------------- */
   /*                              HELPER FUNCTIONS                              */
   /* -------------------------------------------------------------------------- */
-  const formatDate = (value: string): string => {
-    return new Date(value).toLocaleDateString('en-US', {
+  const formatDate = (): string => {
+    return new Date(createdAt).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
@@ -37,6 +41,21 @@ export const Entry = ({
     'bg-error': type === 'alert',
   });
 
+  const formatGoogleUrl = () => {
+    return `http://maps.google.com/maps?z=12&t=m&q=loc:${location.lat}+${location.lng}`;
+  };
+
+  const handleOnView = (): void => {
+    onView && onView();
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  /* -------------------------------------------------------------------------- */
+  /*                                   RENDER                                   */
+  /* -------------------------------------------------------------------------- */
   return (
     <div key={id} className="flex items-center space-x-3 rounded-lg bg-neutral">
       <div className={iconClassName}>
@@ -46,17 +65,16 @@ export const Entry = ({
         <div className="flex flex-grow flex-col">
           <div className="space-x-3">
             <span className="text-xl font-semibold">{createdBy}</span>
-            <span className="text-sm">{formatDate(createdAt)}</span>
+            <span className="text-sm">{formatDate()}</span>
           </div>
           <span className="w-full max-w-lg text-ellipsis">{description}</span>
         </div>
         <div className="flex items-center space-x-2">
-          {/* Open in gmaps */}
-          <button className="btn">
-            <ImForward />
-          </button>
+          <a className="btn" href={formatGoogleUrl()} target="_blank">
+            <BsFillMapFill />
+          </a>
           {/* Scroll up to map and open card */}
-          <button className="btn">
+          <button className="btn" onClick={handleOnView}>
             <AiFillEye />
           </button>
           <button className="btn">
