@@ -4,18 +4,18 @@ import {
   Timestamp,
 } from 'firebase-admin/firestore';
 import { BaseModel, IsNotEmptyString } from '../common';
-import { IAccount, ICoordinate } from './auth.types';
+import { IAccount, ICoordinates } from './auth.types';
 
 export class Account extends BaseModel implements IAccount {
   @IsNotEmptyString()
   username: string;
 
-  location: ICoordinate;
+  location: ICoordinates;
 
   constructor(
     id: string,
     username: string,
-    location: ICoordinate,
+    location: ICoordinates,
     isDeleted: boolean,
     createdAt: Date | Timestamp,
   ) {

@@ -8,7 +8,7 @@ import { WEB_URL } from '../common';
 import { getUrl, MYINFO_CONFIG, ONE_MAP_ENDPOINT } from './auth.constant';
 import { Account } from './auth.model';
 import { AuthRepository } from './auth.repository';
-import { ICoordinate, IOneMapResponse } from './auth.types';
+import { ICoordinates, IOneMapResponse } from './auth.types';
 
 @Injectable()
 export class AuthService {
@@ -44,7 +44,7 @@ export class AuthService {
     return await this._signToken(account);
   }
 
-  async _getCoordinatesFromLocation(location: string): Promise<ICoordinate> {
+  async _getCoordinatesFromLocation(location: string): Promise<ICoordinates> {
     const response = await this.httpService.axiosRef.get<IOneMapResponse>(
       ONE_MAP_ENDPOINT,
       {

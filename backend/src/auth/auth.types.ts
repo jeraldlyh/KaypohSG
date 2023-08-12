@@ -1,4 +1,5 @@
 import { IBaseModel } from '../common/base.model';
+import { Account } from './auth.model';
 
 export interface IQuery {
   username: string;
@@ -7,10 +8,10 @@ export interface IQuery {
 
 export interface IAccount extends IBaseModel {
   username: string;
-  location: ICoordinate;
+  location: ICoordinates;
 }
 
-export interface ICoordinate {
+export interface ICoordinates {
   lat: string;
   lng: string;
 }
@@ -26,4 +27,8 @@ export interface IOneMapResponse {
     LATITUDE: string;
     LONGITUDE: string;
   }[];
+}
+
+export interface IAuth extends Account {
+  token: string;
 }
