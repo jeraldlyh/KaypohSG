@@ -28,7 +28,7 @@ export const NavBar = (): JSX.Element => {
   /* -------------------------------------------------------------------------- */
   const handleThemeChange = (): void => {
     const currentTheme = localStorage.getItem('theme') || 'dracula';
-    const nextTheme = currentTheme === 'dracula' ? 'valentine' : 'dracula';
+    const nextTheme = currentTheme === 'dracula' ? 'dark' : 'dracula';
 
     localStorage.setItem('theme', nextTheme);
 
@@ -49,7 +49,7 @@ export const NavBar = (): JSX.Element => {
         Kaypoh
         <span className="text-custom-red">SG</span>
       </a>
-      <div className="flex space-x-3">
+      <div className="flex space-x-5">
         <button
           className="text-2xl hover:text-primary-focus"
           onClick={openModal}
