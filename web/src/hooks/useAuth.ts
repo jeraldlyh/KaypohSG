@@ -2,9 +2,8 @@ import { AxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { CLIENT_ROUTES, IUser, WHITELISTED_ROUTES } from '../common';
+import { CLIENT_ROUTES, IUser, Utils, WHITELISTED_ROUTES } from '../common';
 import { AuthService } from '../services';
-import { Utils } from '../utils';
 
 export const useAuth = () => {
   /* -------------------------------------------------------------------------- */
@@ -31,6 +30,8 @@ export const useAuth = () => {
       if (!isLoggedIn && !isPathAllowed) {
         resetUser();
         goToLanding();
+      } else if (isLoggedIn && isPathAllowed) {
+        goToHome();
       }
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -56,10 +57,10 @@ export const useAuth = () => {
     router.push(CLIENT_ROUTES.HOME);
   };
 
-  const signIn = async (username: string, password: string): Promise<void> => {
+  const signIn = async (): Promise<void> => {
     let hasError = false;
 
-    await toast.promise(AuthService.signIn(username, password), {
+    await toast.promise(AuthService.signIn(), {
       loading: 'Attempting to login',
       success: (data) => {
         setUser({ username: data });

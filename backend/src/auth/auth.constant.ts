@@ -36,3 +36,5 @@ export const MYINFO_CONFIG = {
 export const getUrl = (url: 'AUTHORISE' | 'TOKEN' | 'PERSON'): string => {
   return MYINFO_ENDPOINTS[url][ENVIRONMENT];
 };
+
+export const ONE_MAP_ENDPOINT = 'https://developers.onemap.sg/commonapi/search';

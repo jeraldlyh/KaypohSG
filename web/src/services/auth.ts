@@ -1,10 +1,9 @@
 import { SERVER_ROUTES } from '../common';
 import AxiosService from './axios';
 
-const signIn = async (username: string, password: string): Promise<string> => {
-  const result = await AxiosService.post<string>(SERVER_ROUTES.AUTH.SIGN_IN, {
-    username,
-    password,
+const signIn = async (): Promise<string> => {
+  const result = await AxiosService.get<string>(SERVER_ROUTES.AUTH.SIGN_IN, {
+    params: { username: 'test', address: 'senja' },
   });
 
   return result.data;

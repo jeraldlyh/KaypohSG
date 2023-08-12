@@ -1,13 +1,20 @@
 'use client';
 import { useEffect } from 'react';
-import { BsFillMoonFill, BsFillSunFill } from 'react-icons/bs';
+import {
+  BsFillMoonFill,
+  BsFillSunFill,
+  BsPlusCircleFill,
+} from 'react-icons/bs';
 import { IoLogOut } from 'react-icons/io5';
+import { useAuth, useModal } from '../hooks';
 
-interface IProps {
-  onLogout: () => Promise<void>;
-}
+export const NavBar = (): JSX.Element => {
+  /* -------------------------------------------------------------------------- */
+  /*                                    STATE                                   */
+  /* -------------------------------------------------------------------------- */
+  const { openModal } = useModal();
+  const { signOut } = useAuth();
 
-export const NavBar = ({ onLogout }: IProps): JSX.Element => {
   /* -------------------------------------------------------------------------- */
   /*                                   EFFECTS                                  */
   /* -------------------------------------------------------------------------- */
@@ -37,12 +44,18 @@ export const NavBar = ({ onLogout }: IProps): JSX.Element => {
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
   return (
-    <div className="navbar rounded-box flex justify-between bg-base-200 pl-5 pr-10 shadow-xl md:pl-6">
+    <div className="navbar rounded-box sticky top-3 z-10 flex justify-between bg-base-200 pl-5 pr-10 shadow-xl md:pl-6">
       <a className="btn btn-ghost gap-0 text-lg font-bold normal-case md:text-xl">
         Kaypoh
         <span className="text-custom-red">SG</span>
       </a>
       <div className="flex space-x-3">
+        <button
+          className="text-2xl hover:text-primary-focus"
+          onClick={openModal}
+        >
+          <BsPlusCircleFill />
+        </button>
         <label className="swap swap-rotate hover:text-primary-focus">
           <input type="checkbox" />
           <div
@@ -58,10 +71,7 @@ export const NavBar = ({ onLogout }: IProps): JSX.Element => {
             <BsFillSunFill />
           </div>
         </label>
-        <button
-          className="text-2xl hover:text-primary-focus"
-          onClick={onLogout}
-        >
+        <button className="text-2xl hover:text-primary-focus" onClick={signOut}>
           <IoLogOut />
         </button>
       </div>
