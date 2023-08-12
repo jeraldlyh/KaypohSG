@@ -6,15 +6,17 @@ import { Contribution, ContributionConverter } from './contribution.model';
 @Injectable()
 export class ContributionRepository {
   private readonly contributionCollection: string = 'contribution';
+  private readonly LIMIT = 50;
 
   async getAllContribution(): Promise<Contribution[]> {
     const result = await firebase
       .firestore()
       .collection(this.contributionCollection)
       .withConverter(ContributionConverter)
+      .orderBy('createdAt', 'desc')
+      .limit(this.LIMIT)
       .get();
 
-    // NOTE: Expensive computation by fetching all
     return result.docs.map((doc) => doc.data());
   }
 
