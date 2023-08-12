@@ -19,7 +19,7 @@ export const SERVER_ROUTES = {
 
 export const WHITELISTED_ROUTES = new Set([
   CLIENT_ROUTES.SIGN_IN,
-  CLIENT_ROUTES.HOME,
+  CLIENT_ROUTES.LANDING,
 ]);
 
 export const BACKEND_BASE_URL =

@@ -30,6 +30,8 @@ export const useAuth = () => {
       if (!isLoggedIn && !isPathAllowed) {
         resetUser();
         goToLanding();
+      } else if (isLoggedIn && isPathAllowed) {
+        goToHome();
       }
     } catch (error) {
       if (error instanceof AxiosError) {
