@@ -1,6 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ICoordinates } from '../auth/auth.types';
-import { Contribution } from './contribution.model';
 import { ContributionRepository } from './contribution.repository';
 import { IContribution, IGetContribution } from './contribution.types';
 
@@ -32,7 +31,7 @@ export class ContributionService {
   async create(
     username: string,
     location: ICoordinates,
-    contribution: Contribution,
+    contribution: IContribution,
   ): Promise<void> {
     contribution.createdBy = username;
 
