@@ -55,10 +55,10 @@ export const useAuth = () => {
     router.push(CLIENT_ROUTES.HOME);
   };
 
-  const signIn = async (username: string, password: string): Promise<void> => {
+  const signIn = async (): Promise<void> => {
     let hasError = false;
 
-    await toast.promise(AuthService.signIn(username, password), {
+    await toast.promise(AuthService.signIn(), {
       loading: 'Attempting to login',
       success: (data) => {
         setUser({ username: data });

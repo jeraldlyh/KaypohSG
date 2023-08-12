@@ -8,8 +8,9 @@ import {
 } from '@nestjs/common';
 import { Response as IResponse } from 'express';
 import { IRedirectUrl, Public } from '../common';
+import { Auth } from './auth.decorator';
 import { AuthService } from './auth.service';
-import { IQuery } from './auth.types';
+import { IAuth, IQuery } from './auth.types';
 
 @Controller('auth')
 export class AuthController {
@@ -38,10 +39,16 @@ export class AuthController {
     response.cookie('accessToken', token, { httpOnly: true });
   }
 
-  @Post('/logout')
-  async logout(
+  @Post('/signOut')
+  async signOut(
     @Response({ passthrough: true }) response: IResponse,
   ): Promise<void> {
     response.clearCookie('accessToken', { httpOnly: true });
+  }
+
+  @Post('/validate')
+  async validate(@Auth() auth: IAuth): Promise<boolean> {
+    console.log(auth);
+    return await this.authService.validateToken(auth.token);
   }
 }

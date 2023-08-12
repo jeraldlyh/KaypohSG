@@ -2,14 +2,14 @@ import { IContribution } from './types';
 
 export const CLIENT_ROUTES = {
   LANDING: '/',
-  HOME: '/home',
+  HOME: '/dashboard',
   SIGN_IN: '/signIn',
 };
 
 export const SERVER_ROUTES = {
   AUTH: {
     SIGN_OUT: '/auth/signOut',
-    SIGN_IN: '/auth/signIn',
+    SIGN_IN: '/auth/callback',
     VALIDATE: '/auth/validate',
   },
   CONTRIBUTION: {

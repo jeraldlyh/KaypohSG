@@ -44,6 +44,17 @@ export class AuthService {
     return await this._signToken(account);
   }
 
+  async validateToken(token: string): Promise<boolean> {
+    try {
+      await this.jwtService.verifyAsync(token, {
+        secret: process.env.AUTH_SECRET,
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
   async _getCoordinatesFromLocation(location: string): Promise<ICoordinates> {
     const response = await this.httpService.axiosRef.get<IOneMapResponse>(
       ONE_MAP_ENDPOINT,
