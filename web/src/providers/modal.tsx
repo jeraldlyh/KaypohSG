@@ -125,7 +125,9 @@ const ModalProvider = ({ children }: IModalProvider) => {
           <div className="my-4 flex flex-col space-y-2">
             <span className="font-semibold">Type</span>
             <select
-              onChange={(e) => modal.handleOnChange('type', e.target.value)}
+              onChange={(e) =>
+                modal.handleOnChange('type', e.target.value.toLowerCase())
+              }
               className="select select-bordered w-full"
             >
               <option>Info</option>

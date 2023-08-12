@@ -92,7 +92,7 @@ export const Marker = (props: IProps): JSX.Element => {
 
     return (
       <motion.div
-        className="card relative w-52 bg-base-100 shadow-xl"
+        className="card relative z-10 w-52 bg-base-100 shadow-xl"
         initial={{ opacity: 0 }}
         animate={{ opacity: isOpen ? 1 : 0 }}
         transition={{ duration: 0.5 }}
@@ -120,9 +120,7 @@ export const Marker = (props: IProps): JSX.Element => {
             </div>
             <div className="flex items-center space-x-2">
               <BsFillPersonFill className="text-base" />
-              <span className="truncate">
-                {createdBy}a;lskdl;akd;laskdl;as;lka;ldk;a;l
-              </span>
+              <span className="truncate">{createdBy}</span>
             </div>
           </div>
           <div className="divider m-0" />

@@ -1,4 +1,5 @@
 import { IContribution } from '../common';
+import { useModal } from '../hooks';
 import { Entry } from './Entry';
 
 interface IProps {
@@ -13,15 +14,23 @@ export const Section = ({
   refetchData,
 }: IProps): JSX.Element => {
   /* -------------------------------------------------------------------------- */
+  /*                                    STATE                                   */
+  /* -------------------------------------------------------------------------- */
+  const { openModal } = useModal();
+
+  /* -------------------------------------------------------------------------- */
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
   const renderCards = (): JSX.Element[] | JSX.Element => {
     if (!data || data.length === 0) {
       return (
-        <div className="flex h-full w-full items-center justify-center">
+        <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
           <span className="text-lg font-semibold uppercase italic text-info">
             &lt; There&rsquo;s currently no reportings /&gt;
           </span>
+          <button className="btn btn-info btn-wide" onClick={openModal}>
+            Contribute
+          </button>
         </div>
       );
     }
