@@ -10,7 +10,7 @@ import { Response as IResponse } from 'express';
 import { IRedirectUrl, Public } from '../common';
 import { Auth } from './auth.decorator';
 import { AuthService } from './auth.service';
-import { IAuth, IQuery } from './auth.types';
+import { IAuth, IMyInfoCallback } from './auth.types';
 
 @Controller('auth')
 export class AuthController {
@@ -28,8 +28,8 @@ export class AuthController {
   @Get('/callback')
   @Public()
   async callback(
-    @Query() query: IQuery,
-    @Response({ passthrough: true }) response: IResponse,
+    @Query() query: IMyInfoCallback,
+    @Response({ passthrough: true }) response: Partial<IResponse>,
   ): Promise<void> {
     const token = await this.authService.createAccount(
       query.username,
@@ -41,7 +41,7 @@ export class AuthController {
 
   @Post('/signOut')
   async signOut(
-    @Response({ passthrough: true }) response: IResponse,
+    @Response({ passthrough: true }) response: Partial<IResponse>,
   ): Promise<void> {
     response.clearCookie('accessToken', { httpOnly: true });
   }

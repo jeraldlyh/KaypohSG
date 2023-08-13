@@ -1,7 +1,7 @@
 import { IBaseModel } from '../common/base.model';
 import { Account } from './auth.model';
 
-export interface IQuery {
+export interface IMyInfoCallback {
   username: string;
   address: string;
 }

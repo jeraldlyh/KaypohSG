@@ -1,6 +1,6 @@
 import { ExecutionContext } from '@nestjs/common';
 import { Account } from '../auth.model';
-import { IAuth } from '../auth.types';
+import { IAuth, IMyInfoCallback } from '../auth.types';
 
 export const AuthGuardMock = {
   canActivate(context: ExecutionContext) {
@@ -28,4 +28,9 @@ export const AuthStub = (): IAuth => ({
   iat: '123',
   exp: '123',
   token: '123',
+});
+
+export const SingpassCallbackStub = (): IMyInfoCallback => ({
+  username: 'test',
+  address: 'test',
 });
