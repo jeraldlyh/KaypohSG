@@ -1,13 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Query,
-  Redirect,
-  Response,
-} from '@nestjs/common';
+import { Controller, Get, Post, Query, Response } from '@nestjs/common';
 import { Response as IResponse } from 'express';
-import { IRedirectUrl, Public } from '../common';
+import { Public } from '../common';
 import { Auth } from './auth.decorator';
 import { AuthService } from './auth.service';
 import { IAuth, IMyInfoCallback } from './auth.types';
@@ -16,14 +9,14 @@ import { IAuth, IMyInfoCallback } from './auth.types';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('/login')
-  @Public()
-  @Redirect()
-  async singpassLogin(): Promise<IRedirectUrl> {
-    const url = await this.authService.singpassLogin();
-    console.log(url);
-    return { url };
-  }
+  //   @Post('/login')
+  //   @Public()
+  //   @Redirect()
+  //   async singpassLogin(): Promise<IRedirectUrl> {
+  //     const url = await this.authService.singpassLogin();
+  //     console.log(url);
+  //     return { url };
+  //   }
 
   @Get('/callback')
   @Public()

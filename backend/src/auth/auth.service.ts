@@ -1,34 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { instanceToPlain } from 'class-transformer';
-import * as MyInfoConnector from 'myinfo-connector-nodejs';
+// import * as MyInfoConnector from 'myinfo-connector-nodejs';
 import { v4 as uuidv4 } from 'uuid';
-import { WEB_URL } from '../common';
 import { OneMapService } from '../one-map/one-map.service';
-import { getUrl, MYINFO_CONFIG } from './auth.constant';
 import { Account } from './auth.model';
 import { AuthRepository } from './auth.repository';
 
 @Injectable()
 export class AuthService {
-  private myinfoConnector: any;
+  //   private myinfoConnector: any;
 
   constructor(
     private readonly oneMapService: OneMapService,
     private readonly authRepository: AuthRepository,
     private readonly jwtService: JwtService,
   ) {
-    this.myinfoConnector = new MyInfoConnector(MYINFO_CONFIG);
+    // this.myinfoConnector = new MyInfoConnector(MYINFO_CONFIG);
   }
-  async singpassLogin(): Promise<string> {
-    const authUrl = getUrl('AUTHORISE');
+  //   async singpassLogin(): Promise<string> {
+  //     const authUrl = getUrl('AUTHORISE');
 
-    return `${authUrl}?client_id=${MYINFO_CONFIG.CLIENT_ID}&attributes=${
-      MYINFO_CONFIG.ATTRIBUTES
-    }&purpose=demonstrating MyInfo APIs&state=${encodeURIComponent(
-      uuidv4(),
-    )}&redirect_uri=${WEB_URL}`;
-  }
+  //     return `${authUrl}?client_id=${MYINFO_CONFIG.CLIENT_ID}&attributes=${
+  //       MYINFO_CONFIG.ATTRIBUTES
+  //     }&purpose=demonstrating MyInfo APIs&state=${encodeURIComponent(
+  //       uuidv4(),
+  //     )}&redirect_uri=${WEB_URL}`;
+  //   }
 
   async createAccount(username: string, address: string): Promise<string> {
     let account = await this.authRepository.getAccount(username);
