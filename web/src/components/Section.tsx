@@ -34,9 +34,10 @@ export const Section = ({
         </div>
       );
     }
-    return data.map((data) => (
+    return data.map((data, index) => (
       <Entry
         {...data}
+        key={index}
         onView={() => setDisplayContributionId(data.id)}
         refetchData={refetchData}
       />
