@@ -1,5 +1,4 @@
 'use client';
-import { useRouter } from 'next/navigation';
 import { Container, SingpassIcon } from '../common';
 import { useAuth } from '../hooks';
 import { LandingIcon } from './LandingIcon';
@@ -8,21 +7,26 @@ export const Landing = () => {
   /* -------------------------------------------------------------------------- */
   /*                                   STATES                                   */
   /* -------------------------------------------------------------------------- */
-  const router = useRouter();
   const { signIn } = useAuth();
 
   return (
     <Container styles="space-y-5 justify-center">
       <LandingIcon />
-      <div className="flex flex-col items-center font-bold uppercase tracking-widest">
-        <span className="text-xl md:text-3xl">Building Bonds</span>
-        <span className="text-2xl md:text-5xl">Ensuring Security</span>
+      <div className="flex flex-col items-center space-y-1 text-2xl font-extrabold uppercase tracking-wide md:text-4xl">
+        <div>
+          <span>Building </span>
+          <span className="text-error">Bonds</span>
+        </div>
+        <div>
+          <span>Ensuring </span>
+          <span className="text-error">Security</span>
+        </div>
       </div>
       <button
-        className="btn-netural btn flex w-full max-w-xs items-center md:btn-lg lg:max-w-sm"
+        className="btn-netural btn btn-md flex w-full max-w-xs items-center font-extrabold tracking-wide md:btn-lg md:max-w-md"
         onClick={signIn}
       >
-        <span className="tracking-wide">Log in with</span>
+        <span>Login with</span>
         <SingpassIcon />
       </button>
     </Container>

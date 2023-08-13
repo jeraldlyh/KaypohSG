@@ -1,6 +1,6 @@
 export const LandingIcon = (): JSX.Element => {
   return (
-    <div>
+    <div className="w-[240px] md:w-[600px]">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
