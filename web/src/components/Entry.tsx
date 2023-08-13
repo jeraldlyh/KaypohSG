@@ -85,7 +85,10 @@ export const Entry = ({
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
   return (
-    <div key={id} className="flex items-center space-x-3 rounded-lg bg-neutral">
+    <div
+      key={id}
+      className="flex items-center space-x-3 rounded-lg bg-base-100"
+    >
       <div className={iconClassName}>
         <Icon type={type} />
       </div>
