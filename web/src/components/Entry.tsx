@@ -41,7 +41,7 @@ export const Entry = ({
   };
 
   const iconClassName = clsx({
-    'inline-flex h-full md:w-20 w-full items-center justify-center rounded-lg text-4xl text-base-100 py-2 md:py-0':
+    'inline-flex h-full md:w-20 w-full items-center justify-center rounded-lg text-4xl text-base-100 py-2 md:py-0 rounded-b-none md:rounded-b-lg':
       true,
     'bg-info': type === 'info',
     'bg-warning': type === 'sighting',
@@ -95,22 +95,30 @@ export const Entry = ({
       <div className="flex w-full flex-col space-y-5 px-7 py-3 md:px-5 lg:flex-row lg:space-y-0">
         <div className="flex flex-grow flex-col">
           <div className="mb-4 flex items-end justify-between space-x-3 md:mb-0 md:flex-none md:items-baseline md:justify-normal">
-            <span className="truncate text-2xl font-bold">{createdBy}</span>
-            <span className="truncate text-xs uppercase">{formatDate()}</span>
+            <span className="truncate text-xl font-bold md:text-2xl">
+              {createdBy}
+            </span>
+            <span className="truncate text-[10px] uppercase">
+              {formatDate()}
+            </span>
           </div>
-          <span className="break-all md:max-w-[350px] lg:max-w-[390px]">
+          <span className="break-all text-sm md:max-w-[350px] lg:max-w-[390px]">
             {description}
           </span>
         </div>
         <div className="flex items-center justify-between md:justify-normal md:space-x-2">
-          <a className="btn btn-sm" href={formatGoogleUrl()} target="_blank">
+          <a
+            className="btn btn-sm md:btn-md"
+            href={formatGoogleUrl()}
+            target="_blank"
+          >
             <BsFillMapFill />
           </a>
-          <button className="btn btn-sm" onClick={handleOnView}>
+          <button className="btn btn-sm md:btn-md" onClick={handleOnView}>
             <AiFillEye />
           </button>
           <button
-            className="btn btn-sm relative"
+            className="btn btn-sm relative md:btn-md"
             onClick={handleLike}
             disabled={isButtonDisabled()}
           >
@@ -120,7 +128,7 @@ export const Entry = ({
             </span>
           </button>
           <button
-            className="btn btn-sm relative"
+            className="btn btn-sm relative md:btn-md"
             onClick={handleDislike}
             disabled={isButtonDisabled()}
           >
