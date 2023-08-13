@@ -1,9 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ICoordinates } from '../../auth/auth.types';
 import { AuthStub } from '../../auth/__tests__/auth.stub';
 import { ContributionRepository } from '../contribution.repository';
 import { ContributionService } from '../contribution.service';
-import { IContribution, IGetContribution } from '../contribution.types';
+import { IGetContribution } from '../contribution.types';
 import { ContributionStub, GetContributionStub } from './contribution.stub';
 
 const mockGetAll = jest.fn();
@@ -15,37 +14,6 @@ jest.mock('../contribution.repository', () => ({
     like: jest.fn(),
     dislike: jest.fn(),
     updateLikes: jest.fn(),
-    _isWithinAcceptableRadius: jest
-      .fn()
-      .mockImplementation(
-        (source: ICoordinates, destination: ICoordinates): boolean => {
-          const expectedY = 0.006;
-          const expectedX = 0.005;
-
-          const computedX = Math.abs(+source.lng - +destination.lng);
-          const computedY = Math.abs(+source.lat - +destination.lat);
-
-          return computedX <= expectedX && computedY <= expectedY;
-        },
-      ),
-    _appendUserActions: jest
-      .fn()
-      .mockImplementation(
-        (
-          contributions: IContribution[],
-          username: string,
-        ): IGetContribution[] => {
-          return contributions.map((contribution) => {
-            return {
-              ...contribution,
-              actions: {
-                isLiked: contribution.likes.includes(username),
-                isDisliked: contribution.dislikes.includes(username),
-              },
-            };
-          });
-        },
-      ),
   })),
 }));
 
@@ -98,6 +66,7 @@ describe('ContributionService', () => {
     it('should call contributionRepository', async () => {
       mockGetAll.mockResolvedValue([ContributionStub()]);
       const { username, location } = AuthStub();
+
       await contributionService.getAllByLocation(username, location);
 
       expect(contributionRepository.getAll).toBeCalled();
@@ -106,6 +75,7 @@ describe('ContributionService', () => {
     it('should return a list of contributions', async () => {
       mockGetAll.mockResolvedValue([ContributionStub()]);
       const { username, location } = AuthStub();
+
       const contributions = await contributionService.getAllByLocation(
         username,
         location,
@@ -136,6 +106,7 @@ describe('ContributionService', () => {
     it('should call contributionRepository', async () => {
       const { username, location } = AuthStub();
       const contribution = ContributionStub();
+
       await contributionService.create(username, location, contribution);
 
       expect(contributionRepository.create).toBeCalledWith(contribution);
@@ -159,6 +130,7 @@ describe('ContributionService', () => {
     it('should call contributionRepository', async () => {
       const id = 'test';
       const { username } = AuthStub();
+
       await contributionService.like(username, id);
 
       expect(contributionRepository.updateLikes).toBeCalledWith(username, id);
@@ -169,6 +141,7 @@ describe('ContributionService', () => {
     it('should call contributionRepository', async () => {
       const id = 'test';
       const { username } = AuthStub();
+
       await contributionService.dislike(username, id);
 
       expect(contributionRepository.updateLikes).toBeCalledWith(
@@ -179,7 +152,7 @@ describe('ContributionService', () => {
     });
   });
 
-  describe('when isWithinAcceptableRadius is called', () => {
+  describe('when _isWithinAcceptableRadius is called', () => {
     it.each`
       source                    | destination                       | isAcceptable
       ${{ lat: '0', lng: '0' }} | ${{ lat: '0', lng: '0' }}         | ${true}
