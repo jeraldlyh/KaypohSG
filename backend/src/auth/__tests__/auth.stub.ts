@@ -34,3 +34,5 @@ export const SingpassCallbackStub = (): IMyInfoCallback => ({
   username: 'test',
   address: 'test',
 });
+
+export const JwtStub = (): string => 'test';

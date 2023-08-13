@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { ONE_MAP_ENDPOINT } from '../auth/auth.constant';
 import { ICoordinates, IOneMapResponse } from '../auth/auth.types';
+import { ONE_MAP_ENDPOINT } from './one-map.constant';
 
 @Injectable()
 export class OneMapService {

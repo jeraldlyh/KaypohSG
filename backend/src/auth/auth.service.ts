@@ -26,7 +26,7 @@ export class AuthService {
     return `${authUrl}?client_id=${MYINFO_CONFIG.CLIENT_ID}&attributes=${
       MYINFO_CONFIG.ATTRIBUTES
     }&purpose=demonstrating MyInfo APIs&state=${encodeURIComponent(
-      12345,
+      uuidv4(),
     )}&redirect_uri=${WEB_URL}`;
   }
 
@@ -34,8 +34,14 @@ export class AuthService {
     let account = await this.authRepository.getAccount(username);
 
     if (!account) {
-      const location = await this.oneMapService.searchAddress(address)[0];
-      account = new Account(uuidv4(), username, location, false, new Date());
+      const locations = await this.oneMapService.searchAddress(address);
+      account = new Account(
+        uuidv4(),
+        username,
+        locations[0],
+        false,
+        new Date(),
+      );
 
       await this.authRepository.createAccount(account);
     }
