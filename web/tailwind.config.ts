@@ -14,6 +14,9 @@ const config: Config = {
           red: '#F4333D',
         },
       },
+      fontFamily: {
+        primary: ['Poppins', 'sans-serif'],
+      },
     },
   },
   plugins: [require('@tailwindcss/typography'), require('daisyui')],

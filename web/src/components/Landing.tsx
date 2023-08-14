@@ -10,7 +10,7 @@ export const Landing = () => {
   const { signIn } = useAuth();
 
   return (
-    <Container styles="space-y-5 justify-center">
+    <Container styles="space-y-5">
       <LandingIcon />
       <div className="flex flex-col items-center space-y-1 text-2xl font-extrabold uppercase tracking-wide md:text-4xl">
         <div>
