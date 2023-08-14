@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { DEFAULT_PAYLOAD, IModalState, MODAL_ID } from '../common';
-import { OneMapService } from '../services';
+import toast from 'react-hot-toast';
+import { DEFAULT_PAYLOAD, IModalState, MODAL_ID, Utils } from '../common';
+import { ContributionService, OneMapService } from '../services';
 
 export const useModal = () => {
   /* -------------------------------------------------------------------------- */
@@ -63,7 +64,41 @@ export const useModal = () => {
     }
   };
 
-  const resetPayload = (): void => setPayload(DEFAULT_PAYLOAD);
+  const resetPayload = (): void => {
+    setPayload(DEFAULT_PAYLOAD);
+    const locationInput = document.getElementById(
+      'location',
+    ) as HTMLInputElement;
 
-  return { payload, openModal, closeModal, resetPayload, handleOnChange };
+    locationInput.value = '';
+  };
+
+  const handleOnSubmit = async (): Promise<void> => {
+    try {
+      await toast.promise(
+        ContributionService.create({
+          type: payload.type,
+          location: payload.location,
+          description: payload.description,
+        }),
+        {
+          loading: 'Attempting to contribute',
+          success: 'Successfully contributed',
+          error: (e) => Utils.capitalize(e.response.data.message.toString()),
+        },
+      );
+    } finally {
+      closeModal();
+    }
+  };
+
+  return {
+    payload,
+    openModal,
+    closeModal,
+    resetPayload,
+    handleOnChange,
+    handleOnSubmit,
+    handleClose: closeModal,
+  };
 };

@@ -1,16 +1,13 @@
 'use client';
 import { createContext, useContext } from 'react';
-import toast from 'react-hot-toast';
 import { BiSolidError } from 'react-icons/bi';
 import {
   DEFAULT_PAYLOAD,
   IContribution,
   ICoordinates,
   MODAL_ID,
-  Utils,
 } from '../common';
 import { useModal } from '../hooks';
-import { ContributionService } from '../services';
 
 interface IModalContext {
   payload: Partial<IContribution>;
@@ -18,6 +15,8 @@ interface IModalContext {
   closeModal: () => void;
   resetPayload: () => void;
   handleOnChange: (key: 'type' | 'description', value: string) => void;
+  handleOnSubmit: () => Promise<void>;
+  handleClose: () => void;
 }
 
 interface IModalProvider {
@@ -30,6 +29,8 @@ const ModalContext = createContext<IModalContext>({
   closeModal: () => {},
   resetPayload: () => {},
   handleOnChange: (key: 'type' | 'description', value: string) => {},
+  handleOnSubmit: async () => {},
+  handleClose: () => {},
 });
 
 const useModalContext = () => useContext(ModalContext);
@@ -43,30 +44,6 @@ const ModalProvider = ({ children }: IModalProvider) => {
   /* -------------------------------------------------------------------------- */
   /*                              HELPER FUNCTIONS                              */
   /* -------------------------------------------------------------------------- */
-  const handleOnSubmit = async (): Promise<void> => {
-    try {
-      await toast.promise(
-        ContributionService.create({
-          type: modal.payload.type,
-          location: modal.payload.location,
-          description: modal.payload.description,
-        }),
-        {
-          loading: 'Attempting to contribute',
-          success: 'Successfully contributed',
-          error: (e) => Utils.capitalize(e.response.data.message.toString()),
-        },
-      );
-    } finally {
-      handleClose();
-    }
-  };
-
-  const handleClose = (): void => {
-    modal.resetPayload();
-    modal.closeModal();
-  };
-
   const isButtonDisabled = (): boolean =>
     !modal.payload.description ||
     !modal.payload.location?.lat ||
@@ -165,13 +142,13 @@ const ModalProvider = ({ children }: IModalProvider) => {
           <div className="mt-3 flex w-full flex-col-reverse md:flex-row md:space-x-4">
             <button
               className="btn btn-secondary w-full flex-shrink"
-              onClick={handleClose}
+              onClick={modal.handleClose}
             >
               Cancel
             </button>
             <button
               className="btn btn-primary mb-2 w-full flex-shrink md:m-0"
-              onClick={handleOnSubmit}
+              onClick={modal.handleOnSubmit}
               disabled={isButtonDisabled()}
             >
               Submit
