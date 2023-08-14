@@ -31,12 +31,13 @@ export const useAuth = () => {
   const validateIsUserLoggedIn = async (): Promise<void> => {
     try {
       const isPathAllowed = WHITELISTED_ROUTES.has(pathname);
-      const isLoggedIn = await AuthService.validateUserAuth();
+      const account = await AuthService.validateUserAuth();
+      setAccount(account);
 
-      if (!isLoggedIn && !isPathAllowed) {
+      if (!account && !isPathAllowed) {
         resetUser();
         goToLanding();
-      } else if (isLoggedIn && isPathAllowed) {
+      } else if (account && isPathAllowed) {
         goToHome();
       }
     } catch (error) {

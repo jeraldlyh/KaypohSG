@@ -43,7 +43,12 @@ export interface IAuth extends Account {
   exp: string;
 }
 
-export interface ICallbackResponse {
+export interface IJwtTokenPayload {
   account: Account;
   token: string;
+}
+
+export interface IJwtVerifiedToken extends Account {
+  iat: string;
+  exp: string;
 }

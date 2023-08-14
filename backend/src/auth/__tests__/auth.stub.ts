@@ -1,6 +1,6 @@
 import { ExecutionContext } from '@nestjs/common';
 import { Account } from '../auth.model';
-import { IAuth, IMyInfoCallback } from '../auth.types';
+import { IAuth, IJwtTokenPayload, IMyInfoCallback } from '../auth.types';
 
 export const AuthGuardMock = {
   canActivate(context: ExecutionContext) {
@@ -35,4 +35,9 @@ export const SingpassCallbackStub = (): IMyInfoCallback => ({
   address: 'test',
 });
 
-export const JwtStub = (): string => 'test';
+export const JwtTokenStub = (): string => 'test';
+
+export const JwtTokenPayloadStub = (): IJwtTokenPayload => ({
+  account: AccountStub(),
+  token: JwtTokenStub(),
+});

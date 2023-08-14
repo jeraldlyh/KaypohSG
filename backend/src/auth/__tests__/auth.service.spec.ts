@@ -6,7 +6,7 @@ import { OneMapService } from '../../one-map/one-map.service';
 import { Account } from '../auth.model';
 import { AuthRepository } from '../auth.repository';
 import { AuthService } from '../auth.service';
-import { AccountStub, JwtStub, SingpassCallbackStub } from './auth.stub';
+import { AccountStub, JwtTokenStub, SingpassCallbackStub } from './auth.stub';
 
 const mockGetAccount = jest.fn();
 jest.mock('../auth.repository', () => ({
@@ -63,7 +63,7 @@ describe('AuthService', () => {
   describe('when createAccount is called', () => {
     beforeEach(() => {
       mockGetAccount.mockReset();
-      jest.spyOn(jwtService, 'signAsync').mockResolvedValue(JwtStub());
+      jest.spyOn(jwtService, 'signAsync').mockResolvedValue(JwtTokenStub());
     });
 
     it('should call auth repository if account does not exist', async () => {

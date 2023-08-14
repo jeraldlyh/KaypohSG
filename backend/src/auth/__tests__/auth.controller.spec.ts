@@ -3,11 +3,16 @@ import { Response } from 'express';
 import { AuthController } from '../auth.controller';
 import { AuthGuard } from '../auth.guard';
 import { AuthService } from '../auth.service';
-import { AuthGuardMock, AuthStub, SingpassCallbackStub } from './auth.stub';
+import {
+  AuthGuardMock,
+  AuthStub,
+  JwtTokenPayloadStub,
+  SingpassCallbackStub,
+} from './auth.stub';
 
 jest.mock('../auth.service', () => ({
   AuthService: jest.fn().mockImplementation(() => ({
-    createAccount: jest.fn(),
+    createAccount: jest.fn().mockResolvedValue(JwtTokenPayloadStub()),
     validateToken: jest.fn().mockResolvedValue(true),
   })),
 }));

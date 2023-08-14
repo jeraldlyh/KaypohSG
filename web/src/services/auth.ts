@@ -1,4 +1,4 @@
-import { ILoginResponse, SERVER_ROUTES } from '../common';
+import { IAccount, ILoginResponse, SERVER_ROUTES } from '../common';
 import AxiosService from './axios';
 
 const signIn = async (
@@ -19,8 +19,8 @@ const signOut = async (): Promise<void> => {
   await AxiosService.post<void>(SERVER_ROUTES.AUTH.SIGN_OUT);
 };
 
-const validateUserAuth = async (): Promise<boolean> => {
-  const result = await AxiosService.post<boolean>(SERVER_ROUTES.AUTH.VALIDATE);
+const validateUserAuth = async (): Promise<IAccount> => {
+  const result = await AxiosService.post<IAccount>(SERVER_ROUTES.AUTH.VALIDATE);
 
   return result.data;
 };

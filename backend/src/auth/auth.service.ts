@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { OneMapService } from '../one-map/one-map.service';
 import { Account } from './auth.model';
 import { AuthRepository } from './auth.repository';
-import { ICallbackResponse } from './auth.types';
+import { IJwtTokenPayload, IJwtVerifiedToken } from './auth.types';
 
 @Injectable()
 export class AuthService {
@@ -32,7 +32,7 @@ export class AuthService {
   async createAccount(
     username: string,
     address: string,
-  ): Promise<ICallbackResponse> {
+  ): Promise<IJwtTokenPayload> {
     let account = await this.authRepository.getAccount(username);
 
     if (!account) {
@@ -54,14 +54,13 @@ export class AuthService {
     };
   }
 
-  async validateToken(token: string): Promise<boolean> {
+  async validateToken(token: string): Promise<IJwtVerifiedToken> {
     try {
-      await this.jwtService.verifyAsync(token, {
+      return await this.jwtService.verifyAsync(token, {
         secret: process.env.AUTH_SECRET,
       });
-      return true;
     } catch (error) {
-      return false;
+      return undefined;
     }
   }
 

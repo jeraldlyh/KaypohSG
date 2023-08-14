@@ -3,7 +3,7 @@ import { Response as IResponse } from 'express';
 import { Public } from '../common';
 import { Auth } from './auth.decorator';
 import { AuthService } from './auth.service';
-import { IAuth, ICallbackResponse, IMyInfoCallback } from './auth.types';
+import { IAuth, IJwtTokenPayload, IMyInfoCallback } from './auth.types';
 
 @Controller('auth')
 export class AuthController {
@@ -23,7 +23,7 @@ export class AuthController {
   async callback(
     @Query() query: IMyInfoCallback,
     @Response({ passthrough: true }) response: Partial<IResponse>,
-  ): Promise<ICallbackResponse> {
+  ): Promise<IJwtTokenPayload> {
     const { account, token } = await this.authService.createAccount(
       query.username,
       query.address,
@@ -42,8 +42,10 @@ export class AuthController {
   }
 
   @Post('/validate')
-  async validate(@Auth() auth: IAuth): Promise<boolean> {
-    console.log(auth);
-    return await this.authService.validateToken(auth.token);
+  async validate(@Auth() auth: IAuth): Promise<object> {
+    const { iat, exp, ...account } = await this.authService.validateToken(
+      auth.token,
+    );
+    return account;
   }
 }
