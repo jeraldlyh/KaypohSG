@@ -10,13 +10,13 @@ import {
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { RxCross2 } from 'react-icons/rx';
 import { Icon, IContribution, Utils } from '../common';
+import { useContribution } from '../hooks/useContribution';
 import { ContributionService } from '../services';
 
 interface IProps extends IContribution {
   lat: number;
   lng: number;
   isOpen: boolean;
-  refetchData: () => Promise<void>;
   onOpen: () => void;
   onClose: () => void;
 }
@@ -32,10 +32,10 @@ export const Marker = (props: IProps): JSX.Element => {
     likes,
     dislikes,
     actions: { isLiked, isDisliked },
-    refetchData,
     onOpen,
     onClose,
   } = props;
+  const { mutate } = useContribution();
 
   /* -------------------------------------------------------------------------- */
   /*                              HELPER FUNCTIONS                              */
@@ -54,7 +54,7 @@ export const Marker = (props: IProps): JSX.Element => {
       success: `Successfully liked the contribution`,
       error: (e) => Utils.capitalize(e.response.data.message.toString()),
     });
-    await refetchData();
+    await mutate();
   };
 
   const handleDislike = async (): Promise<void> => {
@@ -63,7 +63,7 @@ export const Marker = (props: IProps): JSX.Element => {
       success: `Successfully disliked the contribution`,
       error: (e) => Utils.capitalize(e.response.data.message.toString()),
     });
-    await refetchData();
+    await mutate();
   };
 
   // NOTE: Prevent user from liking and disliking the contribution at the same time

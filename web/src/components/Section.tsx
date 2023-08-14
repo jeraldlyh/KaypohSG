@@ -5,13 +5,11 @@ import { Entry } from './Entry';
 interface IProps {
   data: IContribution[];
   setDisplayContributionId: React.Dispatch<React.SetStateAction<string>>;
-  refetchData: () => Promise<void>;
 }
 
 export const Section = ({
   data,
   setDisplayContributionId,
-  refetchData,
 }: IProps): JSX.Element => {
   /* -------------------------------------------------------------------------- */
   /*                                    STATE                                   */
@@ -39,7 +37,6 @@ export const Section = ({
         {...data}
         key={index}
         onView={() => setDisplayContributionId(data.id)}
-        refetchData={refetchData}
       />
     ));
   };

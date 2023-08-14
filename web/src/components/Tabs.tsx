@@ -1,23 +1,19 @@
 import { clsx } from 'clsx';
 import React, { useState } from 'react';
 import { IContribution, TType } from '../common';
+import { useContribution } from '../hooks/useContribution';
 import { Section } from './Section';
 
 interface IProps {
-  contributions: IContribution[];
   setDisplayContributionId: React.Dispatch<React.SetStateAction<string>>;
-  refetchData: () => Promise<void>;
 }
 
-export const Tabs = ({
-  contributions,
-  setDisplayContributionId,
-  refetchData,
-}: IProps): JSX.Element => {
+export const Tabs = ({ setDisplayContributionId }: IProps): JSX.Element => {
   /* -------------------------------------------------------------------------- */
   /*                                    STATE                                   */
   /* -------------------------------------------------------------------------- */
   const [currentTab, setCurrentTab] = useState<TType>('info');
+  const { data: contributions } = useContribution();
 
   /* -------------------------------------------------------------------------- */
   /*                              HELPER FUNCTIONS                              */
@@ -30,6 +26,8 @@ export const Tabs = ({
   };
 
   const filterContributions = (): IContribution[] => {
+    if (!contributions) return [];
+
     return contributions.filter(
       (contribution) => contribution.type === currentTab,
     );
@@ -67,7 +65,6 @@ export const Tabs = ({
       <Section
         data={filterContributions()}
         setDisplayContributionId={setDisplayContributionId}
-        refetchData={refetchData}
       />
     </div>
   );

@@ -1,21 +1,18 @@
 import GoogleMapReact from 'google-map-react';
-import { IContribution, SINGAPORE_CENTER_COORDINATES } from '../common';
+import { SINGAPORE_CENTER_COORDINATES } from '../common';
 import { useAuth } from '../hooks';
+import { useContribution } from '../hooks/useContribution';
 import { Marker } from './Marker';
 import { UserLocation } from './UserLocation';
 
 interface IProps {
   displayContributionId: string;
-  contributions: IContribution[];
   setDisplayContributionId: React.Dispatch<React.SetStateAction<string>>;
   onClose: () => void;
-  refetchData: () => Promise<void>;
 }
 
 export const Map = ({
   displayContributionId,
-  contributions,
-  refetchData,
   setDisplayContributionId,
   onClose,
 }: IProps): JSX.Element => {
@@ -23,11 +20,14 @@ export const Map = ({
   /*                                   STATES                                   */
   /* -------------------------------------------------------------------------- */
   const { account } = useAuth();
+  const { data: contributions } = useContribution();
 
   /* -------------------------------------------------------------------------- */
   /*                              HELPER FUNCTIONS                              */
   /* -------------------------------------------------------------------------- */
   const renderMarkers = (): JSX.Element[] => {
+    if (!contributions) return [];
+
     return contributions.map((contribution) => (
       <Marker
         {...contribution}
@@ -35,7 +35,6 @@ export const Map = ({
         isOpen={displayContributionId === contribution.id}
         lat={+contribution.location.lat}
         lng={+contribution.location.lng}
-        refetchData={refetchData}
         onOpen={() => setDisplayContributionId(contribution.id)}
         onClose={onClose}
       />

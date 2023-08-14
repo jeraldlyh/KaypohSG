@@ -7,11 +7,11 @@ import {
   BsFillMapFill,
 } from 'react-icons/bs';
 import { Icon, IContribution, Utils } from '../common';
+import { useContribution } from '../hooks/useContribution';
 import { ContributionService } from '../services';
 
 interface IProps extends IContribution {
   onView: () => void;
-  refetchData: () => Promise<void>;
 }
 
 export const Entry = ({
@@ -25,8 +25,12 @@ export const Entry = ({
   dislikes,
   actions: { isLiked, isDisliked },
   onView,
-  refetchData,
 }: IProps): JSX.Element => {
+  /* -------------------------------------------------------------------------- */
+  /*                                   STATES                                   */
+  /* -------------------------------------------------------------------------- */
+  const { mutate } = useContribution();
+
   /* -------------------------------------------------------------------------- */
   /*                              HELPER FUNCTIONS                              */
   /* -------------------------------------------------------------------------- */
@@ -66,7 +70,8 @@ export const Entry = ({
       success: `Successfully liked the contribution`,
       error: (e) => Utils.capitalize(e.response.data.message.toString()),
     });
-    await refetchData();
+
+    await mutate();
   };
 
   const handleDislike = async (): Promise<void> => {
@@ -75,7 +80,7 @@ export const Entry = ({
       success: `Successfully disliked the contribution`,
       error: (e) => Utils.capitalize(e.response.data.message.toString()),
     });
-    await refetchData();
+    await mutate();
   };
 
   // NOTE: Prevent user from liking and disliking the contribution at the same time

@@ -5,10 +5,8 @@ import {
 } from '../common';
 import AxiosService from './axios';
 
-const getAll = async (): Promise<IContribution[]> => {
-  const result = await AxiosService.get<IContribution[]>(
-    SERVER_ROUTES.CONTRIBUTION.GET_ALL,
-  );
+const getAll = async (path: string): Promise<IContribution[]> => {
+  const result = await AxiosService.get<IContribution[]>(path);
 
   return result.data;
 };
