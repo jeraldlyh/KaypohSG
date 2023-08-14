@@ -34,23 +34,21 @@ export const Dashboard = (): JSX.Element => {
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
   return (
-    <Container>
-      <div className="w-full">
-        <NavBar />
-        <Map
-          displayContributionId={displayContributionId}
-          contributions={contributions}
-          setDisplayContributionId={setDisplayContributionId}
-          onClose={() => setDisplayContributionId('')}
-          refetchData={fetchContributions}
-        />
-        <Legend />
-        <Tabs
-          contributions={contributions}
-          setDisplayContributionId={setDisplayContributionId}
-          refetchData={fetchContributions}
-        />
-      </div>
+    <Container styles="space-y-4">
+      <NavBar />
+      <Map
+        displayContributionId={displayContributionId}
+        contributions={contributions}
+        setDisplayContributionId={setDisplayContributionId}
+        onClose={() => setDisplayContributionId('')}
+        refetchData={fetchContributions}
+      />
+      <Legend />
+      <Tabs
+        contributions={contributions}
+        setDisplayContributionId={setDisplayContributionId}
+        refetchData={fetchContributions}
+      />
     </Container>
   );
 };

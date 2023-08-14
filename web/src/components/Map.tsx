@@ -54,7 +54,7 @@ export const Map = ({
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
   return (
-    <div className="mt-44 h-2/3 w-full overflow-hidden rounded-xl">
+    <div className="h-screen w-full overflow-hidden rounded-xl">
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.NEXT_PUBLIC_API_KEY || '' }}
         defaultZoom={12}

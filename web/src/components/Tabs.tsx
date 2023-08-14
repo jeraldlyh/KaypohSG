@@ -43,7 +43,7 @@ export const Tabs = ({
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
   return (
-    <div className="h-screen">
+    <div className="w-full">
       <div className="tabs-boxed tabs flex-nowrap justify-around font-semibold uppercase">
         <a
           className={getTabClassName('info')}

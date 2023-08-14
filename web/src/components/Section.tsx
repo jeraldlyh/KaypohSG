@@ -45,7 +45,7 @@ export const Section = ({
   };
 
   return (
-    <div className="mt-3 flex h-full w-full flex-col space-y-5 overflow-hidden overflow-y-scroll rounded-lg bg-base-200 px-8 py-8 md:space-y-3 md:px-10">
+    <div className="mt-3 flex h-screen w-full flex-col space-y-5 overflow-hidden rounded-lg bg-base-200 px-8 py-8 md:space-y-3 md:px-10">
       {renderCards()}
     </div>
   );

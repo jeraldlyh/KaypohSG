@@ -126,7 +126,7 @@ export const Marker = (props: IProps): JSX.Element => {
           <div className="divider m-0" />
           <div className="card-actions flex-nowrap justify-center">
             <button
-              className="btn btn-sm relative w-full shrink"
+              className="btn relative w-full shrink"
               onClick={handleLike}
               disabled={isButtonDisabled()}
             >
@@ -136,7 +136,7 @@ export const Marker = (props: IProps): JSX.Element => {
               </span>
             </button>
             <button
-              className="btn btn-sm relative w-full shrink"
+              className="btn relative w-full shrink"
               onClick={handleDislike}
               disabled={isButtonDisabled()}
             >

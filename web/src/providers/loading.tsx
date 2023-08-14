@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Lottie from 'lottie-react';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import mapAnimation from '../assets/mapAnimation.json';
 import { useAuth } from '../hooks';
 
@@ -32,28 +32,26 @@ export const LoadingProvider = ({ children }: IProps) => {
   /* -------------------------------------------------------------------------- */
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
-  const renderChildren = (): JSX.Element => {
-    if (showAnimation) {
-      return (
-        <motion.div
-          className="flex h-screen w-screen items-center justify-center bg-base-100"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: showAnimation ? 1 : 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Lottie className="h-2/3 w-screen" animationData={mapAnimation} />
-        </motion.div>
-      );
-    }
-    return (
+  return (
+    <Fragment>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showAnimation ? 1 : 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        {showAnimation && (
+          <div className="flex h-screen w-screen items-center justify-center bg-neutral-content">
+            <Lottie className="w-screen" animationData={mapAnimation} />
+          </div>
+        )}
+      </motion.div>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: !showAnimation ? 1 : 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 1 }}
       >
         {children}
       </motion.div>
-    );
-  };
-  return renderChildren();
+    </Fragment>
+  );
 };
