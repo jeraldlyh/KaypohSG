@@ -3,7 +3,7 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 export const Legend = (): JSX.Element => {
   return (
     <div className="mb-10 mt-5">
-      <div className="flex flex-wrap justify-around gap-2 font-medium uppercase md:flex-row md:justify-normal md:gap-0 md:space-x-5">
+      <div className="flex flex-wrap justify-around gap-2 font-semibold uppercase md:flex-row md:justify-normal md:gap-0 md:space-x-5">
         <div className="flex items-center space-x-2">
           <FaMapMarkerAlt className="text-info" />
           <span>Info</span>

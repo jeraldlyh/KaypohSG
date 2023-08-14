@@ -2,20 +2,20 @@ import { AxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { CLIENT_ROUTES, IAccount, Utils, WHITELISTED_ROUTES } from '../common';
+import {
+  CLIENT_ROUTES,
+  DEFAULT_ACCOUNT,
+  IAccount,
+  Utils,
+  WHITELISTED_ROUTES,
+} from '../common';
 import { AuthService } from '../services';
 
 export const useAuth = () => {
   /* -------------------------------------------------------------------------- */
   /*                                   STATES                                   */
   /* -------------------------------------------------------------------------- */
-  const DEFAULT_ACCOUNT: IAccount = {
-    id: '',
-    username: '',
-    isDeleted: false,
-    createdAt: '',
-    location: { lat: '', lng: '' },
-  };
+
   const [account, setAccount] = useState<IAccount>(DEFAULT_ACCOUNT);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();

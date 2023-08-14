@@ -1,4 +1,4 @@
-import { IModalState, IProfile } from './types';
+import { IAccount, IModalState, IProfile } from './types';
 
 export const CLIENT_ROUTES = {
   LANDING: '/',
@@ -55,3 +55,11 @@ export const PROFILES: IProfile[] = [
   { username: 'Tom', address: 'sentosa' },
   { username: 'Sam', address: 'bishan' },
 ];
+
+export const DEFAULT_ACCOUNT: IAccount = {
+  id: '',
+  username: '',
+  isDeleted: false,
+  createdAt: '',
+  location: { lat: '', lng: '' },
+};
