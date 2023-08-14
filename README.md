@@ -77,7 +77,7 @@ npm test
 
 ## Wireframe
 
-Check out the [wireframe on Figma](https://www.figma.com/file/IjtDvpsHNY6Fl6lspjV5SW/Govtech-NDI?type=design&node-id=0%3A1&mode=design&t=2snq9KfyrWHHkzaf-1) to preview the application's visual design.
+Check out the [wireframe on Figma](https://www.figma.com/file/IjtDvpsHNY6Fl6lspjV5SW/Govtech-NDI?type=design&node-id=2%3A262&mode=design&t=332hGDUHoQ4nxEJs-1) to preview the application's visual design.
 
 ## Features
 
