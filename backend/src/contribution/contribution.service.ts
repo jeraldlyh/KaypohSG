@@ -57,6 +57,7 @@ export class ContributionService {
     source: ICoordinates,
     destination: ICoordinates,
   ): boolean {
+    // NOTE: Forms an estimated 5km radius
     const expectedY = 0.006;
     const expectedX = 0.005;
 

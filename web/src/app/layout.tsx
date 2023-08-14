@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Toaster } from 'react-hot-toast';
-import { AuthProvider, ModalProvider } from '../providers';
+import { AuthProvider, LoadingProvider, ModalProvider } from '../providers';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -45,7 +45,9 @@ export default function RootLayout({
           }}
         />
         <AuthProvider>
-          <ModalProvider>{children}</ModalProvider>
+          <LoadingProvider>
+            <ModalProvider>{children}</ModalProvider>
+          </LoadingProvider>
         </AuthProvider>
       </body>
     </html>

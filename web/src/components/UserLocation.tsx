@@ -5,6 +5,6 @@ interface IProps {
 
 export const UserLocation = (props: IProps): JSX.Element => {
   return (
-    <div className="h-10 w-10 rounded-full border-4 border-dotted border-error p-10" />
+    <div className="h-10 w-10 rounded-full border-[3px] border-dashed border-error p-10" />
   );
 };
