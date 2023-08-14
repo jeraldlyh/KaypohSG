@@ -1,5 +1,12 @@
-export interface IUser {
-  username: string | null;
+export interface IAccount {
+  id: string;
+  createdAt: string;
+  username: string;
+  isDeleted: boolean;
+  location: {
+    lat: string;
+    lng: string;
+  };
 }
 
 export type TType = 'info' | 'alert' | 'sighting';
@@ -36,4 +43,14 @@ export interface IModalState {
   type: TType;
   description: string;
   options: ICoordinates[];
+}
+
+export interface ILoginResponse {
+  account: IAccount;
+  token: string;
+}
+
+export interface IProfile {
+  username: string;
+  address: string;
 }

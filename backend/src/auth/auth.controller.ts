@@ -3,7 +3,7 @@ import { Response as IResponse } from 'express';
 import { Public } from '../common';
 import { Auth } from './auth.decorator';
 import { AuthService } from './auth.service';
-import { IAuth, IMyInfoCallback } from './auth.types';
+import { IAuth, ICallbackResponse, IMyInfoCallback } from './auth.types';
 
 @Controller('auth')
 export class AuthController {
@@ -23,13 +23,15 @@ export class AuthController {
   async callback(
     @Query() query: IMyInfoCallback,
     @Response({ passthrough: true }) response: Partial<IResponse>,
-  ): Promise<void> {
-    const token = await this.authService.createAccount(
+  ): Promise<ICallbackResponse> {
+    const { account, token } = await this.authService.createAccount(
       query.username,
       query.address,
     );
 
     response.cookie('accessToken', token, { httpOnly: true });
+
+    return { account, token };
   }
 
   @Post('/signOut')

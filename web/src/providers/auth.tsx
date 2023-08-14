@@ -1,10 +1,10 @@
 'use client';
 import { createContext, useContext } from 'react';
-import { IUser } from '../common';
+import { IAccount } from '../common';
 import { useAuth } from '../hooks';
 
 interface IAuthContext {
-  user: IUser;
+  user: IAccount;
   signIn: (username: string, password: string) => void;
   signOut: () => void;
   isLoading: boolean;

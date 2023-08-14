@@ -1,4 +1,4 @@
-import { IModalState } from './types';
+import { IModalState, IProfile } from './types';
 
 export const CLIENT_ROUTES = {
   LANDING: '/',
@@ -48,3 +48,10 @@ export const DEFAULT_PAYLOAD: IModalState = {
   },
   options: [],
 };
+
+export const PROFILES: IProfile[] = [
+  { username: 'Mary', address: 'senja' },
+  { username: 'John', address: 'pasir ris' },
+  { username: 'Tom', address: 'sentosa' },
+  { username: 'Sam', address: 'bishan' },
+];

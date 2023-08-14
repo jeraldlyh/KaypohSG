@@ -44,7 +44,7 @@ export const AccountConverter = {
       data.username,
       data.location,
       data.isDeleted,
-      data.createdAt,
+      (data.createdAt as Timestamp).toDate(),
     );
   },
 };

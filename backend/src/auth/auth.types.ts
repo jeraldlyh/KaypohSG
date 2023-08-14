@@ -42,3 +42,8 @@ export interface IAuth extends Account {
   iat: string;
   exp: string;
 }
+
+export interface ICallbackResponse {
+  account: Account;
+  token: string;
+}

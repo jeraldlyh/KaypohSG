@@ -1,10 +1,16 @@
-import { SERVER_ROUTES } from '../common';
+import { ILoginResponse, SERVER_ROUTES } from '../common';
 import AxiosService from './axios';
 
-const signIn = async (): Promise<string> => {
-  const result = await AxiosService.get<string>(SERVER_ROUTES.AUTH.SIGN_IN, {
-    params: { username: 'test', address: 'senja' },
-  });
+const signIn = async (
+  username: string,
+  address: string,
+): Promise<ILoginResponse> => {
+  const result = await AxiosService.get<ILoginResponse>(
+    SERVER_ROUTES.AUTH.SIGN_IN,
+    {
+      params: { username, address },
+    },
+  );
 
   return result.data;
 };

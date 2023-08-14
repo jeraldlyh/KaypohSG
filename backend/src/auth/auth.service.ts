@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { OneMapService } from '../one-map/one-map.service';
 import { Account } from './auth.model';
 import { AuthRepository } from './auth.repository';
+import { ICallbackResponse } from './auth.types';
 
 @Injectable()
 export class AuthService {
@@ -28,7 +29,10 @@ export class AuthService {
   //     )}&redirect_uri=${WEB_URL}`;
   //   }
 
-  async createAccount(username: string, address: string): Promise<string> {
+  async createAccount(
+    username: string,
+    address: string,
+  ): Promise<ICallbackResponse> {
     let account = await this.authRepository.getAccount(username);
 
     if (!account) {
@@ -44,7 +48,10 @@ export class AuthService {
       await this.authRepository.createAccount(account);
     }
 
-    return await this._signToken(account);
+    return {
+      account,
+      token: await this._signToken(account),
+    };
   }
 
   async validateToken(token: string): Promise<boolean> {

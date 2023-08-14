@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { DEFAULT_PAYLOAD, IModalState, MODAL_ID } from '../common';
 import { OneMapService } from '../services';
 
@@ -7,10 +7,6 @@ export const useModal = () => {
   /*                                    STATE                                   */
   /* -------------------------------------------------------------------------- */
   const [payload, setPayload] = useState<IModalState>(DEFAULT_PAYLOAD);
-
-  useEffect(() => {
-    console.log(payload);
-  }, [payload]);
 
   /* -------------------------------------------------------------------------- */
   /*                              HELPER FUNCTIONS                              */
