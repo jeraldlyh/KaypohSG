@@ -37,7 +37,7 @@ export class ContributionService {
 
     if (!this._isWithinAcceptableRadius(location, contribution.location)) {
       throw new BadRequestException(
-        'You are only allowed to contribute to your vicinity',
+        'You are only allowed to contribute to your vicinity marked by the dotted circle',
       );
     }
 

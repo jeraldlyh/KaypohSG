@@ -92,5 +92,5 @@ export const useAuth = () => {
     goToLanding();
   };
 
-  return { user: account, signIn, signOut, isLoading };
+  return { account, signIn, signOut, isLoading };
 };

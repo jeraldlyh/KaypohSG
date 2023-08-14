@@ -1,6 +1,8 @@
 import GoogleMapReact from 'google-map-react';
 import { IContribution, SINGAPORE_CENTER_COORDINATES } from '../common';
+import { useAuth } from '../hooks';
 import { Marker } from './Marker';
+import { UserLocation } from './UserLocation';
 
 interface IProps {
   displayContributionId: string;
@@ -17,6 +19,11 @@ export const Map = ({
   setDisplayContributionId,
   onClose,
 }: IProps): JSX.Element => {
+  /* -------------------------------------------------------------------------- */
+  /*                                   STATES                                   */
+  /* -------------------------------------------------------------------------- */
+  const { account } = useAuth();
+
   /* -------------------------------------------------------------------------- */
   /*                              HELPER FUNCTIONS                              */
   /* -------------------------------------------------------------------------- */
@@ -35,7 +42,13 @@ export const Map = ({
     ));
   };
 
-  const renderUserLocation = (): JSX.Element => {};
+  const renderUserLocation = (): JSX.Element => {
+    const {
+      location: { lat, lng },
+    } = account;
+
+    return <UserLocation lat={lat} lng={lng} />;
+  };
 
   /* -------------------------------------------------------------------------- */
   /*                                   RENDER                                   */
@@ -49,10 +62,13 @@ export const Map = ({
         options={{
           disableDoubleClickZoom: true,
           clickableIcons: false,
-          maxZoom: 15,
-          minZoom: 12,
+          zoomControl: false,
+          fullscreenControl: false,
+          panControl: false,
+          scrollwheel: false,
         }}
       >
+        {renderUserLocation()}
         {renderMarkers()}
       </GoogleMapReact>
     </div>
