@@ -25,8 +25,8 @@ export const Section = ({
     if (!data || data.length === 0) {
       return (
         <div className="flex h-full w-full flex-col items-center justify-center space-y-2">
-          <span className="text-lg font-semibold uppercase italic text-info">
-            &lt; There&rsquo;s currently no reportings /&gt;
+          <span className="text-center text-lg font-semibold uppercase italic md:text-2xl">
+            There&rsquo;s currently no reportings
           </span>
           <button className="btn btn-info btn-wide" onClick={openModal}>
             Contribute

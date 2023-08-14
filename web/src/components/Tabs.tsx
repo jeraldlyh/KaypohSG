@@ -43,7 +43,7 @@ export const Tabs = ({
   /*                                   RENDER                                   */
   /* -------------------------------------------------------------------------- */
   return (
-    <div className="mt-10 h-screen">
+    <div className="h-screen">
       <div className="tabs-boxed tabs flex-nowrap justify-around font-semibold uppercase">
         <a
           className={getTabClassName('info')}
@@ -52,16 +52,16 @@ export const Tabs = ({
           Info
         </a>
         <a
-          className={getTabClassName('alert')}
-          onClick={() => handleTabChange('alert')}
-        >
-          Alert
-        </a>
-        <a
           className={getTabClassName('sighting')}
           onClick={() => handleTabChange('sighting')}
         >
           Sighting
+        </a>
+        <a
+          className={getTabClassName('alert')}
+          onClick={() => handleTabChange('alert')}
+        >
+          Alert
         </a>
       </div>
       <Section
